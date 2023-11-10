@@ -19733,7 +19733,7 @@ hr.horizontal.gray-light {
 }
 
 .navbar-light {
-  background-color: #fff !important;
+  background-color: #fff;
 }
 .navbar-light .navbar-toggler {
   border: none;
