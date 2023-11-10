@@ -10,6 +10,10 @@
 
 ![Screenshot_2023-11-10_at_10.35.31_PM](/uploads/a001b94d45d0b211ce4c96e8c281aa67/Screenshot_2023-11-10_at_10.35.31_PM.png)
 
-#### 게시판 화면
+#### 게시판 글 화면
+
+![Screenshot_2023-11-10_at_10.35.01_PM](/uploads/f2ab39f33477019c8a341f1d5a8098ad/Screenshot_2023-11-10_at_10.35.01_PM.png)
+
+#### 게시판 글 작성 화면
 
 ![Screenshot_2023-11-10_at_10.35.07_PM](/uploads/ec9012d95f082382497791563c937699/Screenshot_2023-11-10_at_10.35.07_PM.png)
