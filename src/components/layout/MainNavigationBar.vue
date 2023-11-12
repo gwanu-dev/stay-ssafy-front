@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import router from "@/router";
 const navbarAtZero = ref(false);
 
 const navbarShrink = () => {
@@ -17,6 +18,10 @@ onMounted(() => {
     // shrink Navbar when scrolling
     window.addEventListener("scroll", navbarShrink);
 });
+
+const goToBoard = () => {
+    router.push("/board");
+};
 </script>
 
 <template>
@@ -46,7 +51,8 @@ onMounted(() => {
                         <li class="nav-item"><a class="nav-link" href="">나의여행계획</a></li>
                         <li class="nav-item"><a class="nav-link" href="">핫플자랑하기</a></li>
                         <li class="nav-item">
-                            <a id="board" class="nav-link" href="">여행정보공유 </a>
+                            <a id="board" class="nav-link" @click="goToBoard">여행정보공유</a>
+                            <!-- <a id="board" class="nav-link" href="">여행정보공유 </a> -->
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="navbar-join" href="#">회원가입</a>

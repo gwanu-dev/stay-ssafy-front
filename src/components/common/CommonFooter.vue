@@ -10,14 +10,13 @@
                 <li><a href="#" class="navlink text-secondary">개인정보처리방침</a></li>
                 <li><a href="#" class="navlink text-secondary">이용약관</a></li>
                 <li><a href="#" class="navlink text-secondary">이용방법</a></li>
-                <li><a class="navlink text-secondary">&copy SSAFY corp.</a></li>
+                <li><a class="navlink text-secondary">&copy; SSAFY corp.</a></li>
             </ul>
         </div>
     </footer>
 </template>
 
 <style scoped>
-
 .mainhead h1 {
     font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
