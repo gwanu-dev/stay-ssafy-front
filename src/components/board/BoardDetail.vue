@@ -36,8 +36,9 @@ const moveModify = () => {
 
 // delete article
 function onDeleteArticle() {
-    axios.delete(`/api/enjoytrip/board/delete/${articleno}`);
+    axios.delete(`/api/enjoytrip/board/delete`, { params: { articleNo: Number(articleno) } });
     console.log(articleno + "번글 삭제하러 가자!!!");
+    moveList();
 }
 </script>
 

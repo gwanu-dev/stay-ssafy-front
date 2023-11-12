@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-
+import axios from "axios";
 const router = useRouter();
 const route = useRoute();
 
@@ -13,8 +13,8 @@ const article = ref({
     articleNo: 0,
     subject: "",
     content: "",
-    userId: "",
-    userName: "",
+    memberId: "",
+    memberName: "",
     hit: 0,
     registerTime: "",
 });
@@ -49,7 +49,7 @@ watch(
     { immediate: true }
 );
 
-function onSubmit() {
+const onSubmit = () => {
     // event.preventDefault();
 
     if (subjectErrMsg.value) {
@@ -58,20 +58,28 @@ function onSubmit() {
         alert(contentErrMsg.value);
     } else {
         props.type === "regist" ? writeArticle() : updateArticle();
+        moveList();
     }
-}
+};
 
-function writeArticle() {
-    console.log("글등록하자!!", article.value);
-}
+const writeArticle = () => {
+    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+    console.log(article.value);
+    axios.post(`/api/enjoytrip/board/write`, article.value).then((res) => {
+        console.log(article.value);
+    });
+};
 
-function updateArticle() {
-    console.log(article.value.articleNo + "번글 수정하자!!", article.value);
-}
+const updateArticle = () => {
+    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+    axios.put(`/api/enjoytrip/board/edit`, { data: { boardDto: article.value } }).then((res) => {
+        console.log(article.value);
+    });
+};
 
-function moveList() {
+const moveList = () => {
     router.push({ name: "article-list" });
-}
+};
 </script>
 
 <template>
@@ -81,7 +89,7 @@ function moveList() {
             <input
                 type="text"
                 class="form-control"
-                v-model="article.userId"
+                v-model="article.memberId"
                 :disabled="isUseId"
                 placeholder="작성자ID..."
             />
@@ -100,15 +108,21 @@ function moveList() {
             <textarea class="form-control" v-model="article.content" rows="10"></textarea>
         </div>
         <div class="col-auto text-center">
-            <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'">
+            <button
+                type="submit"
+                class="btn btn-outline-primary mb-3"
+                v-if="type === 'regist'"
+                @click="onSubmit"
+            >
                 글작성
             </button>
-            <button type="submit" class="btn btn-outline-success mb-3" v-else>글수정</button>
+            <button type="submit" class="btn btn-outline-success mb-3" v-else @click="onSubmit">
+                글수정
+            </button>
             <button type="button" class="btn btn-outline-danger mb-3 ms-1" @click="moveList">
                 목록으로이동...
             </button>
         </div>
     </form>
 </template>
-
 <style scoped></style>
