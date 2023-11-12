@@ -6,32 +6,37 @@ import axios from "axios";
 
 const articleno = useRoute().params.articleno;
 
-const article = ref();
-axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-axios.get("/api/enjoytrip/board/view/" + articleno + "?pgno=1&key=&word=").then((res) => {
-    article.value = res.data;
-    console.log(res);
-    console.log(article.value);
-});
+const article = ref({});
+
 console.log(article);
 
 onMounted(() => {
     getArticle();
 });
 
+// get article detail
 const getArticle = () => {
-    console.log(articleno + "번글 얻으러 가자!!!");
+    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+    axios.get(`/api/enjoytrip/board/view/${articleno}`).then((res) => {
+        article.value = res.data;
+        console.log(res);
+        console.log(article.value);
+    });
 };
 
+// go back to list view
 const moveList = () => {
-    router.push("/board/list")
-}
+    router.push("/board/list");
+};
 
+// go to modify(edit view)
 const moveModify = () => {
-    router.push("/board/modify/" + articleno)
-}
+    router.push("/board/modify/" + articleno);
+};
 
+// delete article
 function onDeleteArticle() {
+    axios.delete(`/api/enjoytrip/board/delete/${articleno}`);
     console.log(articleno + "번글 삭제하러 가자!!!");
 }
 </script>
@@ -58,7 +63,7 @@ function onDeleteArticle() {
                                 src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
                             />
                             <p>
-                                <span class="fw-bold">{{article.memberName}}</span> <br />
+                                <span class="fw-bold">{{ article.memberName }}</span> <br />
                                 <span class="text-secondary fw-light">
                                     {{ article.registerDate }} 조회 : {{ article.hit }}
                                 </span>
