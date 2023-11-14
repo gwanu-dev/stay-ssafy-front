@@ -1,15 +1,20 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import axios from "axios";
 const router = useRouter();
 const route = useRoute();
 
-const props = defineProps({ type: String });
+const props = defineProps({ modify: Boolean, articleno: String });
+
+import { storeToRefs } from "pinia";
+import { useBoardStore } from "@/stores/board.js";
+const board = useBoardStore();
+const { getArticleDetail, putArticle, editArticle } = board;
+const { article } = storeToRefs(board);
 
 const isUseId = ref(false);
-
-const article = ref({
+console.log(props);
+const articleDetail = ref({
     articleNo: 0,
     subject: "",
     content: "",
@@ -19,12 +24,24 @@ const article = ref({
     registerTime: "",
 });
 
-if (props.type === "modify") {
-    let { articleno } = route.params;
-    console.log(articleno + "번글 얻어와서 수정할거야");
-    // API 호출
-    isUseId.value = true;
-}
+onMounted(async () => {
+    if (props.modify) {
+        let articleno = Number(props.articleno);
+        console.log(articleno + "번글 얻어와서 수정할거야");
+        await getArticleDetail(articleno);
+
+        articleDetail.value.articleNo = article.value.articleNo;
+        articleDetail.value.subject = article.value.subject;
+        articleDetail.value.content = article.value.content;
+        articleDetail.value.memberId = article.value.memberId;
+        articleDetail.value.memberName = article.value.memberName;
+        articleDetail.value.hit = article.value.hit;
+        articleDetail.value.registerTime = article.value.registerTime;
+
+        isUseId.value = true;
+    }
+    console.log(articleDetail.value);
+});
 
 const subjectErrMsg = ref("");
 const contentErrMsg = ref("");
@@ -49,7 +66,7 @@ watch(
     { immediate: true }
 );
 
-const onSubmit = () => {
+const onSubmit = async () => {
     // event.preventDefault();
 
     if (subjectErrMsg.value) {
@@ -57,24 +74,19 @@ const onSubmit = () => {
     } else if (contentErrMsg.value) {
         alert(contentErrMsg.value);
     } else {
-        props.type === "regist" ? writeArticle() : updateArticle();
+        props.modify ? updateArticle() : writeArticle();
         moveList();
     }
 };
 
 const writeArticle = () => {
-    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-    console.log(article.value);
-    axios.post(`/api/enjoytrip/board/write`, article.value).then((res) => {
-        console.log(article.value);
-    });
+    putArticle(articleDetail.value);
+    console.log(articleDetail.value);
 };
 
 const updateArticle = () => {
-    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-    axios.put(`/api/enjoytrip/board/edit`, { data: { boardDto: article.value } }).then((res) => {
-        console.log(article.value);
-    });
+    editArticle(articleDetail.value);
+    console.log(articleDetail.value);
 };
 
 const moveList = () => {
@@ -89,7 +101,7 @@ const moveList = () => {
             <input
                 type="text"
                 class="form-control"
-                v-model="article.memberId"
+                v-model="articleDetail.memberId"
                 :disabled="isUseId"
                 placeholder="작성자ID..."
             />
@@ -99,19 +111,19 @@ const moveList = () => {
             <input
                 type="text"
                 class="form-control"
-                v-model="article.subject"
+                v-model="articleDetail.subject"
                 placeholder="제목..."
             />
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">내용 : </label>
-            <textarea class="form-control" v-model="article.content" rows="10"></textarea>
+            <textarea class="form-control" v-model="articleDetail.content" rows="10"></textarea>
         </div>
         <div class="col-auto text-center">
             <button
                 type="submit"
                 class="btn btn-outline-primary mb-3"
-                v-if="type === 'regist'"
+                v-if="!modify"
                 @click="onSubmit"
             >
                 글작성

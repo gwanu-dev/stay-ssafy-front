@@ -2,21 +2,12 @@
 import { onMounted, ref } from "vue";
 import router from "@/router";
 const navbarAtZero = ref(false);
-
-const navbarShrink = () => {
-    if (window.scrollY == 0) {
-        navbarAtZero.value = false;
-    } else {
-        navbarAtZero.value = true;
-    }
-};
 onMounted(() => {
     // TODO : click Event
 
     // TODO : scroll Event
 
     // shrink Navbar when scrolling
-    window.addEventListener("scroll", navbarShrink);
 });
 
 const goToBoard = () => {

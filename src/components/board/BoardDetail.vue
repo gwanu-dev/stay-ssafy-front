@@ -1,28 +1,22 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import router from "@/router";
-import axios from "axios";
+
+import { storeToRefs } from "pinia";
+import { useBoardStore } from "@/stores/board.js";
+const board = useBoardStore();
+const { article } = storeToRefs(board);
+const { getArticleDetail, deleteArticle } = board;
 
 const articleno = useRoute().params.articleno;
 
-const article = ref({});
-
 console.log(article);
 
-onMounted(() => {
-    getArticle();
+onMounted(async () => {
+    await getArticleDetail(articleno);
+    console.log("[BoardDetail] article : ", article.value);
 });
-
-// get article detail
-const getArticle = () => {
-    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-    axios.get(`/api/enjoytrip/board/view/${articleno}`).then((res) => {
-        article.value = res.data;
-        console.log(res);
-        console.log(article.value);
-    });
-};
 
 // go back to list view
 const moveList = () => {
@@ -31,15 +25,21 @@ const moveList = () => {
 
 // go to modify(edit view)
 const moveModify = () => {
-    router.push("/board/modify/" + articleno);
+    router.push({
+        name: "article-modify",
+        state: {
+            modify: true,
+            articleno : articleno
+        },
+    });
 };
 
 // delete article
-function onDeleteArticle() {
-    axios.delete(`/api/enjoytrip/board/delete`, { params: { articleNo: Number(articleno) } });
+const onDeleteArticle = async () => {
+    await deleteArticle(articleno);
     console.log(articleno + "번글 삭제하러 가자!!!");
     moveList();
-}
+};
 </script>
 
 <template>

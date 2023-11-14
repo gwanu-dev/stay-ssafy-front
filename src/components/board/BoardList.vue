@@ -4,23 +4,27 @@ import VSelect from "@/components/common/VSelect.vue";
 import BoardListItem from "@/components/board/item/BoardListItem.vue";
 import PageNavigation from "@/components/common/PageNavigation.vue";
 import router from "@/router";
-import axios from "axios";
+import { storeToRefs } from "pinia";
+import { useBoardStore } from "@/stores/board.js";
 
-const articleList = ref([]);
-const articles = ref(articleList);
+const board = useBoardStore();
+const { articleList, articleCount } = storeToRefs(board);
+const { getArticleList, getArticleCount } = board;
 const currentPage = ref(1);
 const totalPage = ref(0);
-const listSize = import.meta.env.VITE_ARTICLE_LIST_SIZE;
 // parmater that uses at Parameter Value
 const listParameter = ref({
     pgno: currentPage.value,
-    spp: import.meta.env.VITE_ARTICLE_LIST_SIZE,
     key: "",
     word: "",
 });
-
-onMounted(() => {
-    getArticleList();
+onMounted(async () => {
+    await getArticleList(listParameter);
+    await getArticleCount(listParameter);
+    console.log(articleList.value);
+    console.log(articleCount.value);
+    totalPage.value = articleCount.value;
+    console.log("start");
 });
 
 // search Select Option
@@ -38,42 +42,44 @@ const changeKey = (val) => {
 };
 
 // get Article List using paramter Values
-const getArticleList = () => {
-    axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-    axios
-        .get(
-            `/api/enjoytrip/board/list?pgno=${listParameter.value.pgno}&key=${listParameter.value.key}&word=${listParameter.value.word}`
-        )
-        .then((res) => {
-            articleList.value = res.data;
-            console.log(articleList.value);
-        });
-    axios
-        .get(
-            `/api/enjoytrip/board/list-count?pgno=${listParameter.value.pgno}&key=${listParameter.value.key}&word=${listParameter.value.word}`
-        )
-        .then((res) => {
-            totalPage.value = Math.ceil(res.data / listSize);
-            console.log("res : ", res.data);
-            console.log("pages : ", totalPage.value);
-        });
-};
+// const getArticleList = () => {
+//     axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
+//     axios
+//         .get(
+//             `/api/enjoytrip/board/list?pgno=${listParameter.value.pgno}&key=${listParameter.value.key}&word=${listParameter.value.word}`
+//         )
+//         .then((res) => {
+//             articleList.value = res.data;
+//             console.log(articleList.value);
+//         });
+//     axios
+//         .get(
+//             `/api/enjoytrip/board/list-count?pgno=${listParameter.value.pgno}&key=${listParameter.value.key}&word=${listParameter.value.word}`
+//         )
+//         .then((res) => {
+//             totalPage.value = Math.ceil(res.data / listSize);
+//             console.log("res : ", res.data);
+//             console.log("pages : ", totalPage.value);
+//         });
+// };
 
 // pageChange
 const onPageChange = (val) => {
     console.log(val + "번 페이지로 이동 준비 끝!!!");
     listParameter.value.pgno = val;
     currentPage.value = val;
-    getArticleList();
+    getArticleList(listParameter);
 };
 
-const search = () => {
+const search = async () => {
     listParameter.value.pgno = 1;
-    getArticleList();
+    await getArticleList(listParameter);
+    await getArticleCount(listParameter);
+    totalPage.value = articleCount.value;
 };
 
 const moveWrite = () => {
-    router.push("/board/write");
+    router.push({name :"article-write"});
 };
 </script>
 
@@ -125,10 +131,17 @@ const moveWrite = () => {
                     </thead>
                     <tbody>
                         <BoardListItem
-                            v-for="article in articles"
+                            v-for="article in articleList"
                             :key="article.articleNo"
                             :article="article"
                         ></BoardListItem>
+                        <!-- <p
+                            v-for="article in articleList"
+                            :key="article.articleNo"
+                            :article="article"
+                        >
+                            {{ article.articleNo }}
+                        </p> -->
                     </tbody>
                 </table>
             </div>
