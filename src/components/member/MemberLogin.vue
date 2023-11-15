@@ -1,0 +1,63 @@
+<script setup>
+import { ref } from "vue";
+
+const idInput = ref("");
+const passwordInput = ref("");
+
+
+
+
+
+
+</script>
+
+<template>
+    <div class="align-content-center" id="login-box">
+        <div class="w-25 modal-lg">
+            <div class="justify-content-center">
+                <!-- Modal Header -->
+                <div class="">
+                    <h4 class="">
+                        <i class=""> 로그인</i>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- Modal body -->
+                <div class="">
+                    <form id="form-login" method="POST" action="">
+                        <input type="hidden" name="action" value="login" />
+                        <div class="mb-3">
+                            <label for="" class="form-label">아이디 :</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="idInput"
+                                placeholder="아이디"
+                                name="userid"
+                            />
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">비밀번호 :</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                v-model="passwordInput"
+                                placeholder="비밀번호"
+                                name="userpwd"
+                            />
+                        </div>
+                    </form>
+                </div>
+                <!-- Modal footer -->
+                <div class="">
+                    <button type="button" id="btn-login" class="btn btn-primary btn-sm">
+                        로그인
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-sm">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped></style>
