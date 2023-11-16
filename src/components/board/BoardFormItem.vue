@@ -13,8 +13,8 @@ const article = ref({
   articleNo: 0,
   subject: "",
   content: "",
-  userId: "",
-  userName: "",
+  memberId: "",
+  memberName: "",
   hit: 0,
   registerTime: "",
 });
@@ -79,11 +79,11 @@ function moveList() {
 <template>
   <form @submit.prevent="onSubmit">
     <div class="mb-3">
-      <label for="userid" class="form-label">작성자 ID : </label>
+      <label for="memberid" class="form-label">작성자 ID : </label>
       <input
         type="text"
         class="form-control"
-        v-model="article.userId"
+        v-model="article.memberId"
         :disabled="isUseId"
         placeholder="작성자ID..."
       />

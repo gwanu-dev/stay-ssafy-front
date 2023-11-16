@@ -97,7 +97,7 @@ const moveList = () => {
 <template>
     <form @submit.prevent="onSubmit">
         <div class="mb-3">
-            <label for="userid" class="form-label">작성자 ID : </label>
+            <label for="memberid" class="form-label">작성자 ID : </label>
             <input
                 type="text"
                 class="form-control"

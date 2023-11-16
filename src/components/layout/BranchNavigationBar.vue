@@ -4,9 +4,7 @@ import router from "@/router";
 const navbarAtZero = ref(false);
 onMounted(() => {
     // TODO : click Event
-
     // TODO : scroll Event
-
     // shrink Navbar when scrolling
 });
 
@@ -42,7 +40,9 @@ const goToBoard = () => {
                         <li class="nav-item"><a class="nav-link" href="">나의여행계획</a></li>
                         <li class="nav-item"><a class="nav-link" href="">핫플자랑하기</a></li>
                         <li class="nav-item">
-                            <router-link id="board" class="nav-link" to="board">여행정보공유</router-link>
+                            <router-link id="board" class="nav-link" to="board"
+                                >여행정보공유</router-link
+                            >
                             <!-- <a id="board" class="nav-link" @click="goToBoard">여행정보공유</a> -->
                             <!-- <a id="board" class="nav-link" href="">여행정보공유 </a> -->
                         </li>
@@ -54,7 +54,7 @@ const goToBoard = () => {
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" id="navbar-userview" href="#">회원정보수정</a>
+                            <a class="nav-link" id="navbar-memberview" href="#"></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="navbar-logout" href="">로그아웃</a>

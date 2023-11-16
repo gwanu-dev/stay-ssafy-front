@@ -71,7 +71,7 @@ const onChooseSidoCode = async () => {
                         class="form-control"
                         id="member-password"
                         placeholder="비밀번호"
-                        name="userpwd"
+                        name="memberpwd"
                         v-model="memberInfo.memberPassword"
                     />
                 </div>

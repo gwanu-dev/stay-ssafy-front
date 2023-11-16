@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PresentationView from "/src/views/PresentationView.vue";
+// import { useMemberStore } from "@/stores/member.js";
 
+// const { memberStore } = useMemberStore();
+// const { logoutMember } = memberStore();
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,21 +47,45 @@ const router = createRouter({
       ]
     
     },
-    {
-      path: "/login",
-      name: "login",
-      component: () => import("@/components/member/MemberLogin.vue")
+    { path: "/member",
+      name: "member",
+      component: () => import("@/views/TheMemberView.vue"),
+      children: [
+        {
+          path: "login",
+          name: "member-login",
+          component: () => import("@/components/member/MemberLogin.vue")
+        },
+        {
+          path: "signin",
+          name: "member-signin",
+          component: () => import("@/components/member/MemberSignIn.vue")
+        }, {
+          path: "info",
+          name: "member-info",
+          component: () => import("@/components/member/MemberDetail.vue")
+        }, {
+          path: "edit",
+          name: "member-edit", //TODO
+          component: () => import("@/components/member/MemberDetail.vue")
+        }, {
+          path: "logout",
+          name: "member-logout",
+          component: () => import("@/components/member/MemberLogout.vue")
+          
+        }
+      ]
     },
     {
-      path: "/sign-in",
-      name: "sign-in",
-      component: () => import("@/components/member/MemberSignIn.vue")
-    },
-    // {
-    //   path: "/error",
-    //   name: "error",
-    //   component : Error,
-    // },
+      path: "/attraction",
+      name: "attraction",
+      component: () => import("@/views/TheMapView.vue"),
+    }
+        // {
+        //   path: "/error",
+        //   name: "error",
+        //   component : Error,
+        // },
   ],
 });
 
