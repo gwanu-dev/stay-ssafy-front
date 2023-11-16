@@ -8,24 +8,15 @@ export const useMemberAxiosStore = defineStore(
     "memberaxios",
     () => {
         const getList = async () => {
-            let userList;
-            try {
-                let res = await local.get(BASE_URL + `/admin/list`);
-                userList = res.data;
-                console.log("[api/member.js] userList : ", userList);
-            } catch (err) {
-                console.log(err);
-            }
-            return userList;
+            let res = await local.get(BASE_URL + `/admin/list`);
+            console.log("[api/member.js] userList : ", res);
+            return res;
         };
 
         const regist = async (memberDto) => {
-            try {
-                await local.post(BASE_URL + `/regist`, memberDto);
-                console.log("[api/member.js] regist sucess")
-            } catch (err) {
-                console.log(err);
-            }
+            let res = await local.post(BASE_URL + `/regist`, memberDto);
+            console.log("[api/member.js] regist", res)
+            return res;
         };
 
 
@@ -43,35 +34,31 @@ export const useMemberAxiosStore = defineStore(
         // };
 
         const get = async (id) => {
-            let memberInfo;
-            try {
-                let res = await local.get(BASE_URL + `/info/${id}`);
-                memberInfo = res.data;
-                console.log("[api/member.js] get member Info :", memberInfo)
-            } catch (err) {
-                console.log(err);
-            }
-            return memberInfo;
+            let res = await local.get(BASE_URL + `/info/${id}`);
+            console.log("[api/member.js] get member Info :", res)
+            
+            return res;
         };
 
         const deleteOne = async (id) => {
-            try {
-                await local.delete(BASE_URL + `/delete?id=${id}`);
-            
-                console.log("[api/member.js] delete member success")
-            } catch (err) {
-                console.log(err);
-            }
+            let res = await local.delete(BASE_URL + `/delete?id=${id}`);
+        
+            console.log("[api/member.js] delete member")
+            return res;
         };
 
         const edit = async (memberDto) => {
-            try {
-                await local.delete(BASE_URL + `/edit`, memberDto);
-                console.log("[api/member.js] edit member success")
-            } catch (err) {
-                console.log(err);
-            }
+            let res = await local.delete(BASE_URL + `/edit`, memberDto);
+            console.log("[api/member.js] edit member")
+            return res;
         };
+
+        const login = async (memberDto) => {
+            let res = await local.post(BASE_URL + `/login`, memberDto);
+            console.log("[api.member.js] login member", res);
+            return res;
+            
+        }
 
         return {
             getList,
@@ -79,6 +66,7 @@ export const useMemberAxiosStore = defineStore(
             get,
             deleteOne,
             edit,
+            login
         }
     }
 )

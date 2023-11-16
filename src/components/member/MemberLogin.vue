@@ -3,18 +3,29 @@ import { ref } from "vue";
 
 import { storeToRefs } from "pinia";
 import { useMemberStore } from "@/stores/member.js";
+import router from 'router'
 
 const memberStore = useMemberStore();
 
-const { getMember } = memberStore;
-const { member } = storeToRefs(memberStore);
+const { loginMember } = memberStore;
+const { isLogin } = storeToRefs(memberStore);
 
 const idInput = ref("");
 const passwordInput = ref("");
 
 const login = async () => {
-    await getMember(idInput.value);
-    console.log(member.value);
+    let memberDto = {
+        memberId: idInput.value,
+        memberPassword: passwordInput.value,
+    };
+    await loginMember(memberDto);
+    console.log("[MemberLogin.vue] isLogin : ", isLogin);
+
+    if (isLogin) {
+        router.push({name :""})
+    } else {
+        
+    }
 };
 </script>
 
