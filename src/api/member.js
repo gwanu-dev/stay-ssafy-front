@@ -2,9 +2,10 @@ import { defineStore } from 'pinia';
 import { localAxios } from "@/util/http-commons";
 
 const local = localAxios();
-const BASE_URL =  import.meta.env.VITE_BASE_URL + "/user";
+
+const BASE_URL =  import.meta.env.VITE_BASE_URL + "/member";
 export const useMemberAxiosStore = defineStore(
-    "member-axios",
+    "memberaxios",
     () => {
         const getList = async () => {
             let userList;
@@ -27,10 +28,24 @@ export const useMemberAxiosStore = defineStore(
             }
         };
 
-        const get = async (id, password) => {
+
+        // TODO : wait til api done
+        // const login = async (id, password) => {
+        //     let memberInfo;
+        //     try {
+        //         let res = await local.get(BASE_URL + `/login?id=${id}&password=${password}`);
+        //         memberInfo = res.data;
+        //         console.log("[api/member.js] login member:", memberInfo)
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        //     return memberInfo;
+        // };
+
+        const get = async (id) => {
             let memberInfo;
             try {
-                let res = await local.get(BASE_URL + `/login?id=${id}&password=${password}`);
+                let res = await local.get(BASE_URL + `/info/${id}`);
                 memberInfo = res.data;
                 console.log("[api/member.js] get member Info :", memberInfo)
             } catch (err) {

@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { useBoardAxiosStore } from "@/api/board.js";
 
 const boardaxios = useBoardAxiosStore()
+
 export const useBoardStore = defineStore(
     "board",
     () => {

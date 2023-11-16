@@ -2,15 +2,15 @@ import { defineStore } from 'pinia';
 import { localAxios } from "@/util/http-commons";
 
 const local = localAxios();
-const BASE_URL =  import.meta.env.VITE_BASE_URL + "/attraction";
+const BASE_URL =  import.meta.env.VITE_BASE_URL + "/attraction/search";
 
 export const useAttractionAxiosStore = defineStore(
-    "attraction-axios",
+    "attractionaxios",
     () => {
         const getAttractionList = async (typeDto) => {
             let attractionList;
             try {
-                let res = await local.get(BASE_URL, typeDto)
+                let res = await local.get(BASE_URL+ `?sido=${typeDto.sido}&gugun=${typeDto.gugun}&contentTypeId=${typeDto.contentType}`)
                 attractionList = res.data;
                 console.log("[api/attraction.js] attractionList : ", attractionList);
             } catch (err) {
@@ -18,10 +18,10 @@ export const useAttractionAxiosStore = defineStore(
             }
             return attractionList;
         };
-        const getSidoCodeList = async (sido, gugun, contentType) => {
+        const getSidoCodeList = async () => {
             let sidoCodeList;
             try {
-                let res = await local.get(BASE_URL + `/sido?sido=${sido}&gugun=${gugun}&contentTypeId=${contentType}`);
+                let res = await local.get(BASE_URL + `/sido`);
                 sidoCodeList = res.data;
                 console.log("[api/attraction.js] sidoCodeList : ", sidoCodeList);
             } catch (err) {

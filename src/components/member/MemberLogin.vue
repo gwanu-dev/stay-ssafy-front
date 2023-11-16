@@ -1,14 +1,21 @@
 <script setup>
 import { ref } from "vue";
 
+import { storeToRefs } from "pinia";
+import { useMemberStore } from "@/stores/member.js";
+
+const memberStore = useMemberStore();
+
+const { getMember } = memberStore;
+const { member } = storeToRefs(memberStore);
+
 const idInput = ref("");
 const passwordInput = ref("");
 
-
-
-
-
-
+const login = async () => {
+    await getMember(idInput.value);
+    console.log(member.value);
+};
 </script>
 
 <template>
@@ -50,7 +57,12 @@ const passwordInput = ref("");
                 </div>
                 <!-- Modal footer -->
                 <div class="">
-                    <button type="button" id="btn-login" class="btn btn-primary btn-sm">
+                    <button
+                        type="button"
+                        id="btn-login"
+                        class="btn btn-primary btn-sm"
+                        @click="login"
+                    >
                         로그인
                     </button>
                     <button type="button" class="btn btn-outline-danger btn-sm">닫기</button>

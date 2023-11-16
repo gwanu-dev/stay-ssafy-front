@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PresentationView from "/src/views/PresentationView.vue";
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -42,6 +43,16 @@ const router = createRouter({
       },
       ]
     
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("@/components/member/MemberLogin.vue")
+    },
+    {
+      path: "/sign-in",
+      name: "sign-in",
+      component: () => import("@/components/member/MemberSignIn.vue")
     },
     // {
     //   path: "/error",
