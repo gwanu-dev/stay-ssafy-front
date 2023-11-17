@@ -4,6 +4,7 @@ import { useMemberAxiosStore } from "@/api/member.js";
 import { HttpStatusCode } from 'axios';
 import { jwtDecode } from "jwt-decode";
 import router from "@/router"
+import { HttpStatusCode } from 'axios';
 
 const memberaxios = useMemberAxiosStore();
 
@@ -95,7 +96,6 @@ export const useMemberStore = defineStore(
                 console.log(err)
             }
         }
-
         const loginMember = async (memberDto) => {
             console.log(CONSOLE_PATH, "Login Member method");
             let res = await login(memberDto);
@@ -191,6 +191,9 @@ export const useMemberStore = defineStore(
 
         return {
             member,
+            isLogin,
+            isLoginError,
+            isValidToken,
             isLogin,
             isLoginError,
             isValidToken,

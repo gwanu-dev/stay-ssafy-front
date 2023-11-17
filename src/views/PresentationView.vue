@@ -11,6 +11,7 @@ import PresentationCarousel from "../components/presentation/PresentationCarouse
         <MainNavigationBar />
         <PresentationCarousel />
         <div></div>
+
         <CommonFooter />
     </div>
 </template>
