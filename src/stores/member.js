@@ -4,7 +4,6 @@ import { useMemberAxiosStore } from "@/api/member.js";
 import { HttpStatusCode } from 'axios';
 import { jwtDecode } from "jwt-decode";
 import router from "@/router"
-import { HttpStatusCode } from 'axios';
 
 const memberaxios = useMemberAxiosStore();
 
@@ -24,6 +23,8 @@ export const useMemberStore = defineStore(
             login,
             logout,
             refreshToken,
+            idCheck,
+            emailCheck,
         } = memberaxios;
 
         const member = ref();
@@ -144,6 +145,29 @@ export const useMemberStore = defineStore(
             }
         }
 
+        const memberIdDuplicateCheck = async (id) => {
+            console.log(CONSOLE_PATH, "idCheck started");
+            try {
+                let res = await idCheck(id);
+
+                console.log(CONSOLE_PATH, "idCheck res :", res.data);
+                return res.status;
+            } catch (err) {
+                console.log(CONSOLE_PATH, err);
+            }
+        }
+
+        const memberEmailDuplicateCheck = async (emailId, emailDomain) => {
+            console.log(CONSOLE_PATH, "emailCheck started");
+            try {
+                let res = await emailCheck(emailId, emailDomain);
+                console.log(CONSOLE_PATH, "emailCheck res :", res.data);
+                return res.status;
+            } catch (err) {
+                console.log(CONSOLE_PATH, err);
+            }
+        }
+
 
         const tokenRegernate = async () => {
             console.log(CONSOLE_PATH, "Regen Token >> expired Token info : {}", sessionStorage.getItem("accessToken"));
@@ -194,9 +218,6 @@ export const useMemberStore = defineStore(
             isLogin,
             isLoginError,
             isValidToken,
-            isLogin,
-            isLoginError,
-            isValidToken,
             getMember,
             registMember,
             getMemberList,
@@ -204,6 +225,8 @@ export const useMemberStore = defineStore(
             editMember,
             loginMember,
             logoutMember,
+            memberIdDuplicateCheck,
+            memberEmailDuplicateCheck,
         }
 
         
