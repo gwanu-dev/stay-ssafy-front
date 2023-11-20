@@ -3,6 +3,8 @@ import { defineStore } from 'pinia';
 import { useAttractionAxiosStore } from '@/api/attraction.js'
 
 const attractionaxios = useAttractionAxiosStore();
+const CONSOLE_ROUTE = "[stores/attraction.js]"
+
 
 export const useAttractionStore = defineStore(
     "attractionStore",
@@ -22,19 +24,43 @@ export const useAttractionStore = defineStore(
 
 
         const searchAttractions = async (typeDto) => {
-            attractionList.value = await getAttractionList(tpyeDto);
+            try {
+                let res = await getAttractionList(typeDto);
+                console.log(res.data);
+                attractionList.value = res.data;
+            } catch (err) {
+                console.log(CONSOLE_ROUTE, err);
+            }
         };
 
-        const getSidoCode = async() => {
-            sidoCodeList.value = await getSidoCodeList();
+        const getSidoCode = async () => {
+            try {
+                let res =  await getSidoCodeList();
+                sidoCodeList.value = res.data;
+            } catch (err) {
+                console.log(CONSOLE_ROUTE, err);
+            }
+            
         };
 
         const getGugunCode = async (sidoCode) => {
-            gugunCodeList.value = await getGugunCodeList(sidoCode);
+            try {
+                let res = await getGugunCodeList(sidoCode);
+                gugunCodeList.value = res.data;
+            } catch (err) {
+                console.log(CONSOLE_ROUTE, err);
+            }
+            
         }
 
         const getContentType = async () => {
-            contentTypeList.value = await getContentTypeList();
+            try {
+                let res = await getContentTypeList();
+                contentTypeList.value = res.data;
+            } catch (err) {
+                console.log(CONSOLE_ROUTE, err);
+            }
+            
         }
 
         return {

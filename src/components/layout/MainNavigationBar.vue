@@ -54,7 +54,13 @@ const onLogClick = () => {
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a id="tripbyarea" class="nav-link" href="#">지역별여행지</a>
+                            <router-link
+                                id="attraction"
+                                class="nav-link"
+                                :to="{ name: 'attraction' }"
+                                >지역별여행지</router-link
+                            >
+                            <!-- <a id="tripbyarea" class="nav-link" href="#">지역별여행지</a> -->
                         </li>
                         <li class="nav-item"><a class="nav-link" href="">나의여행계획</a></li>
                         <li class="nav-item"><a class="nav-link" href="">핫플자랑하기</a></li>
