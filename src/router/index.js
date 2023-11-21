@@ -5,6 +5,9 @@ import PresentationView from "/src/views/PresentationView.vue";
 // const { memberStore } = useMemberStore();
 // const { logoutMember } = memberStore();
 
+
+//router에 컴포넌츠를 박으면 안된다...??
+// - 허선생님 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

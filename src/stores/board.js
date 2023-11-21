@@ -22,6 +22,7 @@ export const useBoardStore = defineStore(
         
         
         const getArticleList = async (typeDto) => {
+            console.log(typeDto);
             articleList.value = await getAll(typeDto);
             console.log("store/board.js [getArticleList]articleList : ", articleList.value);
         }

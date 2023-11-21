@@ -1,4 +1,5 @@
 <script setup>
+import { QLayout } from "quasar";
 import CommonFooter from "../components/common/CommonFooter.vue";
 import CommonHeader from "../components/common/CommonHeader.vue";
 import MainNavigationBar from "../components/layout/MainNavigationBar.vue";
@@ -6,14 +7,14 @@ import PresentationCarousel from "../components/presentation/PresentationCarouse
 </script>
 
 <template>
-    <div>
+    <q-layout view="hHh lpR fFf">
         <CommonHeader />
         <MainNavigationBar />
         <PresentationCarousel />
         <div></div>
 
         <CommonFooter />
-    </div>
+    </q-layout>
 </template>
 
 <style scoped></style>

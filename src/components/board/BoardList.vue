@@ -79,7 +79,7 @@ const search = async () => {
 };
 
 const moveWrite = () => {
-    router.push({name :"article-write"});
+    router.push({ name: "article-write" });
 };
 </script>
 
