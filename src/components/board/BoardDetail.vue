@@ -11,7 +11,9 @@ const { article } = storeToRefs(board);
 const { getArticleDetail, deleteArticle } = board;
 
 const articleno = useRoute().params.articleno;
+const likeAxios = useLikeAxiosStore();
 
+const { registLike, deleteLike } = likeAxios;
 console.log(article);
 
 const sortedMemo = ref([]);
@@ -25,7 +27,7 @@ onMounted(async () => {
         } else {
             for (let k = 0; k < sortedMemo.value.length; k++) {
                 if (e.superComment.memoNo === sortedMemo.value[k].memoNo) {
-                    sortedMemo.value.splice(k, 0, e);
+                    sortedMemo.value.splice(k + 1, 0, e);
                     break;
                 }
             }
@@ -58,8 +60,12 @@ const onDeleteArticle = async () => {
 };
 
 const onLikeClick = async () => {
-    console.log("like Clicked!");
-    isLiked.value = !isLiked.value;
+    console.log("like Clicked!", article);
+    if (isLiked.value) {
+        await deleteLike(articleno, article.value.memberId);
+    } else {
+        await registLike(articleno, article.value.memberId);
+    }
 };
 
 const isLiked = ref(false);
@@ -68,12 +74,7 @@ const isLiked = ref(false);
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    <mark class="sky">글보기</mark>
-                </h2>
-            </div>
-            <div class="col-lg-10 text-start">
+            <div class="col-lg-7 text-start">
                 <div class="row my-2">
                     <b>{{ article.articleNo }}</b>
                     <h4 class="text-secondary px-5">
@@ -108,7 +109,7 @@ const isLiked = ref(false);
                                 id="btn-check-outlined"
                                 autocomplete="off"
                                 v-model="isLiked"
-                                @click="isLiked = !isLiked"
+                                @click="onLikeClick"
                             />
                             <label
                                 class="btn btn-outline-warning"
@@ -117,8 +118,8 @@ const isLiked = ref(false);
                             >
                                 <v-icon v-show="!isLiked" name="bi-heart" />
                                 <v-icon v-show="isLiked" name="bi-heart-fill" />
-                                좋아요 {{ article.likeCount + isLiked ? 1 : 0 }}</label
-                            >
+                                좋아요 {{ article.likeCount + isLiked ? 1 : 0 }}
+                            </label>
                         </div>
                     </div>
                     <hr class="divider mt-3 mb-3" />

@@ -17,7 +17,7 @@ const replyNum = ref(0);
 
 const { postMemo, postSubMemo, putMemo, deleteMemo } = memoAxios;
 
-const props = defineProps({ articleno: String });
+const props = defineProps({ articleno: String, sortedmemo: Object });
 
 const memo = ref({
     memoNo: "",
@@ -28,8 +28,13 @@ const memo = ref({
 });
 
 const subMemo = ref({
-
-})
+    memoNo: "",
+    comment: "",
+    memoTime: "",
+    articleNo: "",
+    memberId: "",
+    superComment: "",
+});
 
 const sortedMemo = ref([]);
 
@@ -73,13 +78,17 @@ const deleteThisMemo = async (memo) => {
 
 const writeSubMemo = async (memo) => {
     console.log("write sub memo :", memo);
-    // await postSubMemo(article.value.articleNo, memo.value);
-    // refresh();
+    subMemo.value.articleNo = memo.articleNo;
+    subMemo.value.superComment = memo;
+    subMemo.value.memberId = memo.memberId;
+    console.log(subMemo.value);
+    await postSubMemo(memo.memoNo, subMemo.value);
+    //refresh();
 };
 
 const editMemo = async (memo) => {
     console.log("edit This Key : ", memo);
-    //putMemo(key);
+    putMemo(memo);
 };
 
 const refresh = () => {
@@ -105,10 +114,16 @@ const refresh = () => {
         </div>
         <hr class="divider mt-3 mb-3" />
         <div>
-            <div v-if="!article.memos"></div>
-            <div v-else v-for="memo in article.memos" :key="memo.memoNo">
+            <div v-if="!article.memos">아직 작성된 댓글이 없습니다.</div>
+            <div v-else v-for="memo in sortedmemo" :key="memo.memoNo">
                 <div class="row">
-                    <div class="col-8">
+                    <div
+                        class="col-1 justify-content-end align-items-center"
+                        v-if="memo.superComment != null"
+                    >
+                        <v-icon name="bi-arrow-return-right"></v-icon>
+                    </div>
+                    <div class="col-7" :class="{ 'col-8': memo.superComment == null }">
                         <div class="d-flex flex-column">
                             <div>
                                 <b>{{ memo.memberId }}</b>
@@ -117,6 +132,9 @@ const refresh = () => {
                                 {{ memo.memoTime }}
                             </div>
                             <div v-show="!editState">
+                                <div v-if="memo.superComment != null" style="color: grey">
+                                    @ {{ memo.superComment.memberId }}
+                                </div>
                                 {{ memo.comment }}
                             </div>
                         </div>
@@ -161,7 +179,7 @@ const refresh = () => {
                             <hr class="divider hr-blurry" />
                             <q-input
                                 outlined
-                                v-model=""
+                                v-model="subMemo.comment"
                                 placeholder="답글 작성"
                                 class="col"
                             />
@@ -170,7 +188,7 @@ const refresh = () => {
                                 icon-right="send"
                                 label="답글달기"
                                 class=""
-                                @click="writeMemo"
+                                @click="writeSubMemo(memo)"
                             />
                         </div>
                     </div>

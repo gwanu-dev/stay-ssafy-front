@@ -6,13 +6,13 @@ import router from "./router";
 import { Quasar } from 'quasar'
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll } from "oh-vue-icons/icons";
+import { BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll, BiArrowReturnRight } from "oh-vue-icons/icons";
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
-addIcons(BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll );
+addIcons(BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll , BiArrowReturnRight);
 
 // ...
 import '@quasar/extras/roboto-font/roboto-font.css'
