@@ -1,8 +1,39 @@
 <script setup>
-import { storeToRefs } from "pinia";
-import { useAttractionStore } from "@/stores/attraction.js";
+import PresentationCardItem from './item/PresentationCardItem.vue';
+import axios from 'axios'
+</script>
 
-// const attractionStore = useAttractionStore();
+<script>
+
+const recommendList = {}
+
+export default {
+  name: "App",
+  mounted() {
+    //페이지 시작시 자동 함수 실행
+    this.fetchData();
+  },
+  data() {
+    return {
+      data: this.data,
+    };
+  },
+  methods: {
+    fetchData() {
+      axios
+        .get("http://localhost:80/enjoytrip/attraction/recommend")
+        .then((response) => {
+            //recommendList = response.data;
+            this.data = response.data;
+            console.log(this.data[0].title);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+};
+
 </script>
 
 <template>
@@ -28,62 +59,17 @@ import { useAttractionStore } from "@/stores/attraction.js";
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="text-black mb-4">나만의 여행계획</h2>
+                        <h2 class="text-black mb-4">지금 가장 뜨는 여행지</h2>
                         <p class="text-black-50">
-                            여행 경로, 숙박, 관광지, 예상 금액 등 나만의 멋진 계획을 세워
-                            공유해주세요!
+                            지금 가장 인기있는 여행지를 만나보세요!
                         </p>
                     </div>
                 </div>
                 <div class="mycardlist d-flex justify-content-center">
-                    <div class="card m-3" style="width: 400px">
-                        <img
-                            class="card-img-top"
-                            src="src/assets/img/mytripcard00.jpg"
-                            alt="Card image"
-                        />
-                        <div class="card-body">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text.</p>
-                            <a href="#" class="btn btn-primary">See Profile</a>
-                        </div>
-                    </div>
-                    <div class="card m-3" style="width: 400px">
-                        <img
-                            class="card-img-top"
-                            src="src/assets/img/mytripcard00.jpg"
-                            alt="Card image"
-                        />
-                        <div class="card-body">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text.</p>
-                            <a href="#" class="btn btn-primary">See Profile</a>
-                        </div>
-                    </div>
-                    <div class="card m-3" style="width: 400px">
-                        <img
-                            class="card-img-top"
-                            src="src/assets/img/mytripcard00.jpg"
-                            alt="Card image"
-                        />
-                        <div class="card-body">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text.</p>
-                            <a href="#" class="btn btn-primary">See Profile</a>
-                        </div>
-                    </div>
-                    <div class="card m-3" style="width: 400px">
-                        <img
-                            class="card-img-top"
-                            src="src/assets/img/mytripcard00.jpg"
-                            alt="Card image"
-                        />
-                        <div class="card-body">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text.</p>
-                            <a href="#" class="btn btn-primary">See Profile</a>
-                        </div>
-                    </div>
+                    <PresentationCardItem v-for="d in data"
+                            :key="d.contentId"
+                            :attraction="d">
+                    </PresentationCardItem>
                 </div>
             </div>
         </section>
@@ -92,9 +78,9 @@ import { useAttractionStore } from "@/stores/attraction.js";
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="text-black mb-4">핫플 자랑하기</h2>
+                        <h2 class="text-black mb-4">핫플 공유하기</h2>
                         <p class="text-black-50">
-                            여행지에서 가장 핫하다고 생각했던 장소를 공유해주세요!
+                            나만 알고 있는 여행지를 모두에게 공유해주세요!
                         </p>
                     </div>
                     <img class="mb-5" src="src/assets/img/hotplaceexample.png" />
