@@ -15,13 +15,14 @@ export const useAttractionStore = defineStore(
             getSidoCodeList,
             getGugunCodeList,
             getContentTypeList,
+            getRecommendList,
         } = attractionaxios;
 
         const attractionList = ref();
         const sidoCodeList = ref();
         const gugunCodeList = ref();
         const contentTypeList = ref();
-
+        const recommendList = ref();
 
         const searchAttractions = async (typeDto) => {
             try {
@@ -63,9 +64,18 @@ export const useAttractionStore = defineStore(
             
         }
 
+        const getRecommends = async () => {
+            try {
+                let res = await getRecommendList();
+                contentTypeList.value = res.data;
+            } catch (err) {
+                console.log(CONSOLE_ROUTE, err);
+            }
+        }
+
         return {
-            attractionList, sidoCodeList, gugunCodeList, contentTypeList,
-            searchAttractions, getSidoCode, getGugunCode, getContentType,
+            attractionList, sidoCodeList, gugunCodeList, contentTypeList, recommendList,
+            searchAttractions, getSidoCode, getGugunCode, getContentType, getRecommends
         }
     }
 )
