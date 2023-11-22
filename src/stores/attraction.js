@@ -1,8 +1,7 @@
-import { ref} from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import { useAttractionAxiosStore } from '@/api/attraction.js'
+import {getAttractionList, getSidoCodeList, getGugunCodeList, getContentTypeList} from '@/api/attraction.js'
 
-const attractionaxios = useAttractionAxiosStore();
 const CONSOLE_ROUTE = "[stores/attraction.js]"
 
 
@@ -10,12 +9,7 @@ export const useAttractionStore = defineStore(
     "attractionStore",
 
     () => {
-        const {
-            getAttractionList,
-            getSidoCodeList,
-            getGugunCodeList,
-            getContentTypeList,
-        } = attractionaxios;
+        
 
         const attractionList = ref();
         const sidoCodeList = ref();

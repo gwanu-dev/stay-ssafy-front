@@ -6,7 +6,12 @@ import router from "./router";
 import { Quasar } from 'quasar'
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll, BiArrowReturnRight } from "oh-vue-icons/icons";
+import {
+  BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll, BiArrowReturnRight,
+
+
+
+} from "oh-vue-icons/icons";
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -21,12 +26,10 @@ import '@quasar/extras/material-icons-round/material-icons-round.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
 
-
+const pinia = createPinia();
 const app = createApp(App);
 
-
-const pinia = createPinia();
-
+app.use(pinia);
 app.use(Quasar, {
   // plugins: {}, // import Quasar plugins and add here
   // config: {
@@ -42,6 +45,5 @@ app.use(Quasar, {
   
 })
 app.component("v-icon", OhVueIcon);
-app.use(pinia);
 app.use(router);
 app.mount("#app");
