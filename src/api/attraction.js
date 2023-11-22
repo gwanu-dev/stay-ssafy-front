@@ -29,11 +29,17 @@ export const useAttractionAxiosStore = defineStore(
             console.log(CONSOLE_ROUTE, "contentTypeList : ", res);
             return res;
         };
+        const getRecommendList = async () => {
+            let res = await local.get(BASE_URL + `/recommend`);
+            console.log(CONSOLE_ROUTE, "recommendList : ", res);
+            return res;
+        };
         return {
             getAttractionList,
             getSidoCodeList,
             getGugunCodeList,
             getContentTypeList,
+            getRecommendList, //함수 반환
         }
     }
 )
