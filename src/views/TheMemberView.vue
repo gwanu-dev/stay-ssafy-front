@@ -1,9 +1,13 @@
-<script setup></script>
+<script setup>
+import BranchNavigationBar from "@/components/layout/BranchNavigationBar.vue";
+</script>
 
 <template>
-    <div class="container text-center mt-3">
-        <div class="alert alert-primary">Member Service</div>
-        <router-view></router-view>
+    <div>
+        <BranchNavigationBar></BranchNavigationBar>
+        <div class="text-center">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 

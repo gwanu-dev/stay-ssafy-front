@@ -46,7 +46,7 @@ onMounted(async () => {
 const subjectErrMsg = ref("");
 const contentErrMsg = ref("");
 watch(
-    () => article.value.subject,
+    () => articleDetail.value.subject,
     (value) => {
         let len = value.length;
         if (len == 0 || len > 30) {
@@ -56,7 +56,7 @@ watch(
     { immediate: true }
 );
 watch(
-    () => article.value.content,
+    () => articleDetail.value.content,
     (value) => {
         let len = value.length;
         if (len == 0 || len > 500) {

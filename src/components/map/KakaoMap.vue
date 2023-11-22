@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-
+import MapAttractionItem from "./item/MapAttractionItem.vue";
 import { useAttractionStore } from "@/stores/attraction.js";
 
 const attractionStore = useAttractionStore();
@@ -171,9 +171,10 @@ const deleteMarkers = () => {
             bordered
             :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
             :width="500"
+            class="p-1"
         >
-            <h3>Stay SSAFY</h3>
             <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+                <h3>Stay SSAFY</h3>
                 <div class="mr-4">
                     <div class="q-pa-md" style="display: flex; align-items: center">
                         <!-- Input -->
@@ -274,22 +275,7 @@ const deleteMarkers = () => {
 
                     <div>
                         <div v-for="attraction in attractionList" :key="attraction.contentId">
-                            <hr class="solid" />
-                            <q-card class="my-card">
-                                <q-img
-                                    :src="
-                                        attraction.firstImage
-                                            ? attraction.firstImage
-                                            : `@/assets/img/illustrations/illustration-signin.jpg`
-                                    "
-                                >
-                                    <div class="absolute-bottom text-h6">
-                                        {{ attraction.title }}
-                                    </div>
-                                </q-img>
-                                {{ attraction.addr1 }} <br />
-                                조회수 : {{ attraction.readcount }}
-                            </q-card>
+                            <MapAttractionItem :attraction="attraction" />
                         </div>
                     </div>
                 </div>
@@ -311,7 +297,7 @@ const deleteMarkers = () => {
 }
 
 .main-input {
-    width: 380px;
+    width: 330px;
     margin-left: 1px;
 }
 
@@ -320,6 +306,6 @@ const deleteMarkers = () => {
 }
 
 .search-btn {
-    width: 100px;
+    width: 90px;
 }
 </style>

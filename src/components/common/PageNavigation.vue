@@ -37,7 +37,7 @@ function onPageChange(pg) {
 
 <template>
     <div class="row">
-        <ul class="pagination justify-content-center">
+        <ul class="pagination pagination-secondary justify-content-center">
             <li class="page-item">
                 <a class="page-link" @click="onPageChange(1)">《</a>
             </li>
@@ -56,7 +56,9 @@ function onPageChange(pg) {
                     >〉</a
                 >
             </li>
-            <li class="page-item"><a class="page-link" @click="onPageChange(totalPage)">》</a></li>
+            <li class="page-item">
+                <a class="page-link" @click="onPageChange(totalPage)">》</a>
+            </li>
         </ul>
     </div>
 </template>
@@ -64,5 +66,29 @@ function onPageChange(pg) {
 <style scoped>
 a {
     cursor: pointer;
+}
+.pagination > li > a {
+    background-color: white;
+    color: teal;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: teal;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a {
+    color: white;
+    background-color: teal !important;
+    border: solid 1px teal !important;
+}
+
+.pagination > .active > a:hover {
+    background-color: teal !important;
+    border: solid 1px teal;
 }
 </style>

@@ -6,8 +6,7 @@ import { useMenuStore } from "@/stores/menu";
 
 const menuStore = useMenuStore();
 
-const { menuList } = storeToRefs(menuStore);
-const { changeMenuState } = menuStore;
+const { menuList, menuState } = storeToRefs(menuStore);
 
 const navbarAtZero = ref(false);
 
@@ -21,11 +20,13 @@ const navbarShrink = () => {
 onMounted(() => {
     // shrink Navbar when scrolling
     window.addEventListener("scroll", navbarShrink);
+    if (sessionStorage.getItem("accessToken")) {
+        menuState.value = true;
+    } else {
+        menuState.value = false;
+    }
+    console.log(menuState);
 });
-
-const goToBoard = () => {
-    router.push({ name: "board" });
-};
 
 const onLogClick = () => {
     changeMenuState();
@@ -141,6 +142,7 @@ const onLogClick = () => {
     }
     #mainNav.navbar-shrink {
         background-color: #ffffff;
+        box-shadow: 1 px 1px 15px #000;
     }
     #mainNav.navbar-shrink .navbar-brand {
         color: #000;
@@ -163,7 +165,7 @@ const onLogClick = () => {
     }
 
     #mainNav.navbar-light {
-        box-shadow: 0 0px 0px #000;
+        box-shadow: 0px 0px 0px #000;
     }
 }
 

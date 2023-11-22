@@ -100,6 +100,7 @@ export const useMemberStore = defineStore(
         const loginMember = async (memberDto) => {
             console.log(CONSOLE_PATH, "Login Member method");
             let res = await login(memberDto);
+            console.log(CONSOLE_PATH, "Login Member res:", res);
             if (res.status == HttpStatusCode.Created) {
                 let { data } = res;
 
@@ -116,11 +117,13 @@ export const useMemberStore = defineStore(
                 sessionStorage.setItem("accessToken", accessToken);
                 sessionStorage.setItem("refreshToken", refreshToken);
                 console.log(CONSOLE_PATH, "Tokens are saved at session.");
+                return res.status
             } else {
                 console.log(CONSOLE_PATH, "Login Failed!");
                 isLogin.value = false;
                 isLoginError.value = true;
                 isValidToken.value = false;
+                return res.status
             }
         };
 

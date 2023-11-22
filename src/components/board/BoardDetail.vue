@@ -17,7 +17,7 @@ const { registLike, deleteLike } = likeAxios;
 console.log(article);
 
 const sortedMemo = ref([]);
-
+const memoCount = ref(0);
 onMounted(async () => {
     await getArticleDetail(articleno);
     console.log("[BoardDetail] article : ", article.value);
@@ -34,6 +34,11 @@ onMounted(async () => {
         }
     });
     console.log(sortedMemo);
+    console.log(sortedMemo.value.length);
+    if (sortedMemo.value != null) memoCount.value = sortedMemo.value.length;
+    else {
+        memoCount.value = 0;
+    }
 });
 
 // go back to list view
@@ -59,6 +64,7 @@ const onDeleteArticle = async () => {
     moveList();
 };
 
+// click toggle method
 const onLikeClick = async () => {
     console.log("like Clicked!", article);
     if (isLiked.value) {
@@ -76,8 +82,8 @@ const isLiked = ref(false);
         <div class="row justify-content-center">
             <div class="col-lg-7 text-start">
                 <div class="row my-2">
-                    <b>{{ article.articleNo }}</b>
-                    <h4 class="text-secondary px-5">
+                    <b>{{ article.articleNo }} 번째 글</b>
+                    <h4 class="text-secondary px-3">
                         {{ article.subject }}
                     </h4>
                 </div>
@@ -89,16 +95,23 @@ const isLiked = ref(false);
                                 src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
                             />
                             <p>
-                                <span class="fw-bold">{{ article.memberName }}</span> <br />
+                                <span class="fw-bold">{{ article.memberName }}</span> ({{
+                                    article.memberId
+                                }})<br />
                                 <span class="text-secondary fw-light">
-                                    {{ article.registerDate }} 조회 : {{ article.hit }}
+                                    조회 : {{ article.hit }}
                                 </span>
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-4 align-self-center text-end">댓글 : 17</div>
+                    <div class="col-md-4 align-self-center justify-self-center text-end">
+                        <div>댓글 : {{ memoCount }} 개</div>
+                        <div class="text-muted">
+                            {{ article.registerTime }}
+                        </div>
+                    </div>
                     <hr class="divider mb-3" />
-                    <div class="text-secondary my-4">
+                    <div class="my-4">
                         {{ article.content }}
                     </div>
                     <div class="text-secondary my-3 flex justify-content-center">

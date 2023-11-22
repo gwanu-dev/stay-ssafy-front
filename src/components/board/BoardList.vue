@@ -41,28 +41,6 @@ const changeKey = (val) => {
     listParameter.value.key = val;
 };
 
-// get Article List using paramter Values
-// const getArticleList = () => {
-//     axios.defaults.headers.get["Access-Control-Allow-Origin"] = "*";
-//     axios
-//         .get(
-//             `/api/enjoytrip/board/list?pgno=${listParameter.value.pgno}&key=${listParameter.value.key}&word=${listParameter.value.word}`
-//         )
-//         .then((res) => {
-//             articleList.value = res.data;
-//             console.log(articleList.value);
-//         });
-//     axios
-//         .get(
-//             `/api/enjoytrip/board/list-count?pgno=${listParameter.value.pgno}&key=${listParameter.value.key}&word=${listParameter.value.word}`
-//         )
-//         .then((res) => {
-//             totalPage.value = Math.ceil(res.data / listSize);
-//             console.log("res : ", res.data);
-//             console.log("pages : ", totalPage.value);
-//         });
-// };
-
 // pageChange
 const onPageChange = (val) => {
     console.log(val + "번 페이지로 이동 준비 끝!!!");
@@ -86,17 +64,16 @@ const moveWrite = () => {
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    <mark class="sky">글목록</mark>
-                </h2>
+            <div class="col-lg-10 text-left text-secondary">
+                <h4>여행정보공유</h4>
             </div>
+            <hr class="hr hr-4 m-3" />
             <div class="col-lg-10">
                 <div class="row align-self-center mb-2">
                     <div class="col-md-2 text-start">
                         <button
                             type="button"
-                            class="btn btn-outline-primary btn-sm"
+                            class="btn btn-outline-secondary btn-sm"
                             @click="moveWrite"
                         >
                             글쓰기
@@ -122,11 +99,13 @@ const moveWrite = () => {
                 <table class="table table-hover">
                     <thead>
                         <tr class="text-center">
-                            <th scope="col">글번호</th>
-                            <th scope="col">제목</th>
-                            <th scope="col">작성자</th>
-                            <th scope="col">조회수</th>
-                            <th scope="col">작성일</th>
+                            <th scope="col-1">글번호</th>
+                            <th scope="col-4">제목</th>
+                            <th scope="col-2">작성자</th>
+                            <th scope="col-1">조회수</th>
+                            <th scope="col-1">댓글수</th>
+                            <th scope="col-1">추천수</th>
+                            <th scope="col-2">작성일</th>
                         </tr>
                     </thead>
                     <tbody>

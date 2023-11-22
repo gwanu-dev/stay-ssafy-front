@@ -1,27 +1,30 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import router from "@/router";
-const navbarAtZero = ref(false);
-onMounted(() => {
-    // TODO : click Event
-    // TODO : scroll Event
-    // shrink Navbar when scrolling
-});
+import { storeToRefs } from "pinia";
+import { useMenuStore } from "@/stores/menu";
 
-const goToBoard = () => {
-    router.push({ name: "board" });
+const menuStore = useMenuStore();
+
+const { menuList, menuState } = storeToRefs(menuStore);
+
+const onLogClick = () => {
+    if (sessionStorage.getItem("accessToken")) {
+        menuState.value = true;
+    } else {
+        menuState.value = false;
+    }
 };
 </script>
 
 <template>
     <div>
         <nav
-            class="navbar navbar-expand-lg fixed-top"
+            class="navbar navbar-expand-lg navbar-shrink shadow p-2 mb-5 bg-white rounded fixed-top"
             id="mainNav"
-            :class="{ 'navbar-shrink': navbarAtZero, 'navbar-light': !navbarAtZero }"
         >
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="">EnjoyTrip</a>
+                <a class="navbar-brand" href="" :to="{ name: 'main' }">EnjoyTrip</a>
                 <button
                     class="navbar-toggler navbar-toggler-right"
                     type="button"
@@ -35,29 +38,31 @@ const goToBoard = () => {
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a id="tripbyarea" class="nav-link" href="#">지역별여행지</a>
+                            <router-link
+                                id="attraction"
+                                class="nav-link"
+                                :to="{ name: 'attraction' }"
+                                >지역별여행지</router-link
+                            >
+                            <!-- <a id="tripbyarea" class="nav-link" href="#">지역별여행지</a> -->
                         </li>
                         <li class="nav-item"><a class="nav-link" href="">나의여행계획</a></li>
                         <li class="nav-item"><a class="nav-link" href="">핫플자랑하기</a></li>
                         <li class="nav-item">
-                            <router-link id="board" class="nav-link" to="board"
+                            <router-link id="board" class="nav-link" :to="{ name: 'board' }"
                                 >여행정보공유</router-link
                             >
                             <!-- <a id="board" class="nav-link" @click="goToBoard">여행정보공유</a> -->
                             <!-- <a id="board" class="nav-link" href="">여행정보공유 </a> -->
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="navbar-join" href="#">회원가입</a>
-                        </li>
-                        <li class="nav-item <">
-                            <a class="nav-link" id="navbar-login" href="#">로그인</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" id="navbar-memberview" href="#"></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="navbar-logout" href="">로그아웃</a>
+                        <li class="nav-item" v-for="menu in menuList" :key="menu.routeName">
+                            <router-link
+                                class="nav-link"
+                                id="navbar-login"
+                                v-if="menu.show"
+                                :to="{ name: menu.routeName }"
+                                >{{ menu.name }}
+                            </router-link>
                         </li>
                     </ul>
                 </div>

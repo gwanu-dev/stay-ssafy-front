@@ -9,10 +9,9 @@ console.log("[Modify.vue] modify : ", modify);
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    <mark class="sky">글수정</mark>
-                </h2>
+                <h4 class="my-3 py-3 text-left">글 수정</h4>
             </div>
+            <hr />
             <div class="col-lg-10 text-start">
                 <BoardFormItem :modify="modify" :articleno="articleno" />
             </div>

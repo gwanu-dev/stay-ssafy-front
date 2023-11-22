@@ -60,7 +60,9 @@ function localAxios() {
             isTokenRefreshing = false;
 
             return instance(originalRequest);
-          })
+          }).catch(err => {
+            return err;
+          });
       }
       else if (status == HttpStatusCode.Forbidden) {
         alert(error.response.data.message);

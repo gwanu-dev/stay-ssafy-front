@@ -50,7 +50,7 @@ let pwdCheckMessageList = [
         style: { color: "black" },
     },
     {
-        message: "비밀번호는 8~20자 사이, 영어 대소문자와 특수 기호를 포함해야 합니다.",
+        message: "비밀번호는 8~20자 사이, 영어 대소문자와 특수 기호, 숫자를 포함해야 합니다.",
         style: { color: "red" },
     },
     {
@@ -209,7 +209,7 @@ const register = () => {
     memberInfo.emailDomain = emailDomainInput.value;
 
     registMember(memberInfo);
-    router.redirect({ name: "main" });
+    router.replace({ name: "main" });
 };
 
 const onChooseSidoCode = async () => {
@@ -218,157 +218,152 @@ const onChooseSidoCode = async () => {
 </script>
 
 <template>
-    <div class="" id="register-view">
-        <div class="">
-            <h4 class="">회원가입</h4>
-        </div>
-        <!-- Modal body -->
-        <div class="">
-            <form id="form-join">
-                <div class="mb-3">
-                    <label for="member-name" class="form-label">이름:</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="member-name"
-                        placeholder="이름"
-                        v-model="memberInfo.memberName"
-                    />
-                </div>
-                <div class="mb-3">
-                    <label for="member-id" class="form-label">아이디:</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="member-id"
-                        placeholder="아이디"
-                        v-model="idInput"
-                    />
-                    <div>
-                        <p :style="idDuplicationMessage.style">
-                            {{ idDuplicationMessage.message }}
-                        </p>
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-4">
+                <div class="card shadow-lg rounded-lg">
+                    <div class="card-header bg-primary text-white text-center py-3 d-flex">
+                        <h4 class="mb-0">회원가입</h4>
+                    </div>
+                    <div class="card-body">
+                        <form @submit.prevent="register" class="p-3">
+                            <div class="mb-3 align-items-center">
+                                <label for="member-name" class="form-label mb-0 me-3 d-flex fs-5"
+                                    >이름</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control flex-grow-1"
+                                    id="member-name"
+                                    placeholder="이름"
+                                    v-model="memberInfo.memberName"
+                                />
+                            </div>
+                            <div class="mb-3 align-items-center">
+                                <label for="member-id" class="form-label mb-0 me-3 d-flex fs-5"
+                                    >아이디</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control flex-grow-1"
+                                    id="member-id"
+                                    placeholder="아이디"
+                                    v-model="idInput"
+                                />
+                                <div>
+                                    <p class="d-flex" :style="idDuplicationMessage.style">
+                                        {{ idDuplicationMessage.message }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mb-3 justify-content-start align-items-center">
+                                <label
+                                    for="member-password"
+                                    class="d-flex form-label mb-0 me-3 fs-5"
+                                    >비밀번호</label
+                                >
+                                <input
+                                    type="password"
+                                    class="form-control flex-grow-1"
+                                    id="member-password"
+                                    placeholder="비밀번호"
+                                    v-model="passwordInput"
+                                />
+                                <div>
+                                    <p class="d-flex" :style="passwordValidMessage.style">
+                                        {{ passwordValidMessage.message }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mb-3 align-items-center">
+                                <label
+                                    for="member-password-check"
+                                    class="d-flex form-label mb-0 me-3 fs-5"
+                                    >비밀번호 확인</label
+                                >
+                                <input
+                                    type="password"
+                                    class="form-control flex-grow-1"
+                                    id="member-password-check"
+                                    placeholder="비밀번호 확인"
+                                    v-model="passwordCheckInput"
+                                />
+                                <div>
+                                    <p class="d-flex" :style="passwordCheckValidMessage.style">
+                                        {{ passwordCheckValidMessage.message }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="mb-3 align-items-start justify-content-start">
+                                <label for="member-email" class="d-flex form-label mb-0 me-3 fs-5"
+                                    >이메일</label
+                                >
+                                <div class="d-flex justify-content-start">
+                                    <input
+                                        type="text"
+                                        class="form-control rounded-end-0 email"
+                                        id="member-email"
+                                        placeholder="이메일아이디"
+                                        v-model="emailIdInput"
+                                    />
+                                    <div
+                                        class="text-center text-lg-center align-self-center p-2 bg-light border border-1"
+                                        style="font-size: larger"
+                                    >
+                                        @
+                                    </div>
+                                    <select
+                                        id="member-email-domain"
+                                        class="form-select me-2 rounded-start-0 email"
+                                         name="emaildomain"
+                                        v-model="emailDomainInput"
+                                    >
+                                        <option value="0" selected>이메일 선택</option>
+                                        <option value="naver.com">naver.com</option>
+                                        <option value="gmail.com">gmail.com</option>
+                                        <option value="daum.net">daum.net</option>
+                                        <option value="ssafy.com">ssafy.com</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <p class="d-flex" :style="emailValidMessage.style">
+                                        {{ emailValidMessage.message }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary me-2">회원가입</button>
+                                <button type="button" class="btn btn-secondary me-2">초기화</button>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    닫기
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="member-password" class="form-label">비밀번호:</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="member-password"
-                        placeholder="비밀번호"
-                        name="memberpwd"
-                        v-model="passwordInput"
-                    />
-                    <div>
-                        <p :style="passwordValidMessage.style">
-                            {{ passwordValidMessage.message }}
-                        </p>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="member-passwordC-check" class="form-label">비밀번호 확인:</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="member-password-check"
-                        placeholder="비밀번호 확인"
-                        name="check_password"
-                        v-model="passwordCheckInput"
-                    />
-                    <div>
-                        <p :style="passwordCheckValidMessage.style">
-                            {{ passwordCheckValidMessage.message }}
-                        </p>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="member-email" class="form-label d-block">이메일 :</label>
-                    <div class="d-inline-flex">
-                        <input
-                            type="text"
-                            class="form-control rounded-end-0"
-                            id="member-email"
-                            placeholder="이메일아이디"
-                            v-model="emailIdInput"
-                        />
-                        <div
-                            class="text-center text-lg-center align-self-center p-2 bg-light border border-1"
-                            style="font-size: larger"
-                        >
-                            @
-                        </div>
-                        <select
-                            id="member-email-domain"
-                            class="form-select me-2 d-inline rounded-start-0"
-                            name="emaildomain"
-                            v-model="emailDomainInput"
-                        >
-                            <option value="0" selected>이메일 선택</option>
-                            <option value="naver.com">naver.com</option>
-                            <option value="gmail.com">gmail.com</option>
-                            <option value="daum.net">daum.net</option>
-                            <option value="ssafy.com">ssafy.com</option>
-                        </select>
-                    </div>
-                    <div>
-                        <p :style="emailValidMessage.style">
-                            {{ emailValidMessage.message }}
-                        </p>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="sido-code" class="form-label d-block">지역 :</label>
-                    <div class="d-inline-flex">
-                        <select
-                            id="sido-code"
-                            class="form-select me-2 d-inline"
-                            name="cido"
-                            v-model="memberInfo.sido"
-                            @change="onChooseSidoCode"
-                        >
-                            <option value="0" selected>시도 선택</option>
-                            <option
-                                v-for="sidoCode in sidoCodeList"
-                                :key="sidoCode.sidoCode"
-                                :value="sidoCode.sidoCode"
-                            >
-                                {{ sidoCode.sidoName }}
-                            </option>
-                        </select>
-                        <select
-                            id="gugun-code"
-                            class="form-select me-2 d-inline"
-                            name="gugun"
-                            v-model="memberInfo.gugun"
-                        >
-                            <option value="0" selected>구군 선택</option>
-                            <option
-                                v-for="gugunCode in gugunCodeList"
-                                :key="gugunCode.gugunCode"
-                                :value="gugunCode.gugunCode"
-                            >
-                                {{ gugunCode.gugunName }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!-- Modal footer -->
-        <div class="">
-            <button
-                type="button"
-                id="btn-register"
-                class="btn btn-primary btn-sm"
-                @click="register"
-            >
-                회원가입
-            </button>
-            <button type="button" id="goback" class="btn btn-primary btn-sm">초기화</button>
-            <button type="button" class="btn btn-outline-danger btn-sm">닫기</button>
+            </div>
         </div>
     </div>
 </template>
 
-<style scoped></style>
+/* Customize or add additional styles here */
+<style scoped>
+.container-fluid {
+    background-color: #f5f5f5;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+
+
+.email {
+    width: 180px;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+/* Add any necessary additional styling */
+</style>
