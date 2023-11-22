@@ -1,39 +1,37 @@
 <script setup>
-import PresentationCardItem from './item/PresentationCardItem.vue';
-import axios from 'axios'
+import PresentationCardItem from "./item/PresentationCardItem.vue";
+import axios from "axios";
 </script>
 
 <script>
-
-const recommendList = {}
+const recommendList = {};
 
 export default {
-  name: "App",
-  mounted() {
-    //페이지 시작시 자동 함수 실행
-    this.fetchData();
-  },
-  data() {
-    return {
-      data: this.data,
-    };
-  },
-  methods: {
-    fetchData() {
-      axios
-        .get("http://localhost:80/enjoytrip/attraction/recommend")
-        .then((response) => {
-            //recommendList = response.data;
-            this.data = response.data;
-            console.log(this.data[0].title);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    name: "App",
+    mounted() {
+        //페이지 시작시 자동 함수 실행
+        this.fetchData();
     },
-  },
+    data() {
+        return {
+            data: this.data,
+        };
+    },
+    methods: {
+        fetchData() {
+            axios
+                .get("http://localhost:80/enjoytrip/attraction/recommend")
+                .then((response) => {
+                    //recommendList = response.data;
+                    this.data = response.data;
+                    console.log(this.data[0].title);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+    },
 };
-
 </script>
 
 <template>
@@ -60,15 +58,11 @@ export default {
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
                         <h2 class="text-black mb-4">지금 가장 뜨는 여행지</h2>
-                        <p class="text-black-50">
-                            지금 가장 인기있는 여행지를 만나보세요!
-                        </p>
+                        <p class="text-black-50">지금 가장 인기있는 여행지를 만나보세요!</p>
                     </div>
                 </div>
                 <div class="mycardlist d-flex justify-content-center">
-                    <PresentationCardItem v-for="d in data"
-                            :key="d.contentId"
-                            :attraction="d">
+                    <PresentationCardItem v-for="d in data" :key="d.contentId" :attraction="d">
                     </PresentationCardItem>
                 </div>
             </div>
@@ -79,9 +73,7 @@ export default {
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
                         <h2 class="text-black mb-4">핫플 공유하기</h2>
-                        <p class="text-black-50">
-                            나만 알고 있는 여행지를 모두에게 공유해주세요!
-                        </p>
+                        <p class="text-black-50">나만 알고 있는 여행지를 모두에게 공유해주세요!</p>
                     </div>
                     <img class="mb-5" src="src/assets/img/hotplaceexample.png" />
                 </div>

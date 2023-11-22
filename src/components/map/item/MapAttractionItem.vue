@@ -5,7 +5,7 @@ defineProps({ attraction: Object });
 <template>
     <div>
         <hr class="solid" />
-        <q-card class="my-card">
+        <q-card class="my-card mx-5 my-4">
             <q-img
                 :src="
                     attraction.firstImage
@@ -14,12 +14,12 @@ defineProps({ attraction: Object });
                 "
             >
                 <div class="absolute-bottom text-h6">
-                    {{ attraction.title }}
+                    <b>{{ attraction.title }}</b>
                 </div>
             </q-img>
-            {{ attraction.addr1 }} <br />
-            조회수 : {{ attraction.readcount }}
-            <!-- 설명 : {{ attraction }} -->
+            주 소 : {{ attraction.addr1 }} <br />
+            조회수 : {{ attraction.readcount }}<br />
+            설명 : {{ attraction.description.overview }}
         </q-card>
     </div>
 </template>

@@ -1,9 +1,9 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
-import MapAttractionItem from "./item/MapAttractionItem.vue";
+import MapAttractionItem from "@/components/map/item/MapAttractionItem.vue";
 import { useAttractionStore } from "@/stores/attraction.js";
-
+// const { kakao } = window;
 const attractionStore = useAttractionStore();
 const { searchAttractions, getSidoCode, getGugunCode, getContentType } = attractionStore;
 const { attractionList, sidoCodeList, gugunCodeList, contentTypeList } =
@@ -16,20 +16,14 @@ const markers = ref([]);
 const text = ref("");
 const leftDrawerOpen = ref(false);
 
-const sidoValue = ref({
-    sidoCode: "0",
-});
-const gugunValue = ref({
-    gugunCode: "0",
-});
-const contentTypeValue = ref({
-    contentTypeId: "0",
-});
+const sidoValue = ref("0");
+const gugunValue = ref("0");
+const contentTypeValue = ref("0");
 
 const typeDto = ref({
     sido: "1",
     gugun: "1",
-    contentTypeId: "12",
+    contentTypeId: "1",
     keyword: "",
 });
 
@@ -92,7 +86,7 @@ const initMap = () => {
 //         });
 //         loadMarkers();
 //     },
-//     { deep: true }
+//     { deep: true }article
 // );
 
 // watch(
@@ -108,24 +102,69 @@ const initMap = () => {
 //     { deep: true }
 // );
 
+const imageSrcMapper = (contentTypeCode) => {
+    if (contentTypeCode === 12) {
+        return "src/assets/img/map-icons/monument.svg";
+    }
+    if (contentTypeCode === 14) {
+        return "src/assets/img/map-icons/cableway.svg";
+    }
+    if (contentTypeCode === 15) {
+        return "src/assets/img/map-icons/bonfire.svg";
+    }
+    if (contentTypeCode === 25) {
+        return "src/assets/img/map-icons/course.svg";
+    }
+    if (contentTypeCode === 28) {
+        return "src/assets/img/map-icons/boot.svg";
+    }
+    if (contentTypeCode === 32) {
+        return "src/assets/img/map-icons/motel.svg";
+    }
+    if (contentTypeCode === 38) {
+        return "src/assets/img/map-icons/wallet.svg";
+    }
+    if (contentTypeCode === 39) {
+        return "src/assets/img/map-icons/restaurant.svg";
+    }
+};
+
 const loadMarkers = () => {
     // 현재 표시되어있는 marker들이 있다면 map에 등록된 marker를 제거한다.
     deleteMarkers();
 
-    // 마커 이미지를 생성합니다
-    const imgSrc = "src/assets/img/logos/sketch.jpg";
-    // 마커 이미지의 이미지 크기 입니다
-    const imgSize = new window.kakao.maps.Size(24, 24);
-    const markerImage = new window.kakao.maps.MarkerImage(imgSrc, imgSize);
     // 마커를 생성합니다
     markers.value = [];
     attractionList.value.forEach((attraction) => {
+        const imgSrc = imageSrcMapper(attraction.contentTypeId);
+        const imgSize = new window.kakao.maps.Size(24, 24);
+        const markerImage = new window.kakao.maps.MarkerImage(imgSrc, imgSize);
+
+        let iwContent = `
+        <div style="">
+            <div class="font-weight-bold">${attraction.title}</divs>
+            <div class="text-grey font-weight-light">${attraction.addr1}</div>
+        </div>
+        `;
+
         const marker = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
             position: new kakao.maps.LatLng(attraction.latitude, attraction.longitude), // 마커를 표시할 위치
             title: attraction.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨.
             clickable: true, // // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
             image: markerImage, // 마커의 이미지
+        });
+        const infoWindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+        });
+        kakao.maps.event.addListener(marker, "mouseover", () => {
+            infoWindow.open(map, marker);
+        });
+        kakao.maps.event.addListener(marker, "mouseout", () => {
+            infoWindow.close();
+        });
+        kakao.maps.event.addListener(marker, "click", () => {
+            infoWindow.close();
         });
         markers.value.push(marker);
     });
@@ -231,49 +270,9 @@ const deleteMarkers = () => {
                                 {{ contentType.contentTypeName }}
                             </option>
                         </select>
-
-                        <!-- <q-select
-                        class="col"
-                        color="primary"
-                        filled
-                        standout
-                        label="시도 선택"
-                        emit-value
-                        map-options
-                        :options="sidoCodeList"
-                        option-label="sidoName"
-                        v-model="sidoValue"
-                    >
-                    </q-select>
-                    <q-select
-                        class="col"
-                        color="primary"
-                        label="구군 선택"
-                        emit-value
-                        map-options
-                        filled
-                        standout
-                        :options="gugunCodeList"
-                        option-label="gugunName"
-                        v-model="gugunValue"
-                    >
-                    </q-select>
-                    <q-select
-                        class="col"
-                        color="primary"
-                        label="유형 선택"
-                        emit-value
-                        map-options
-                        filled
-                        standout
-                        :options="contentTypeList"
-                        option-label="contentTypeName"
-                        v-model="contentTypeValue"
-                    >
-                    </q-select> -->
                     </div>
 
-                    <div>
+                    <div class="">
                         <div v-for="attraction in attractionList" :key="attraction.contentId">
                             <MapAttractionItem :attraction="attraction" />
                         </div>
