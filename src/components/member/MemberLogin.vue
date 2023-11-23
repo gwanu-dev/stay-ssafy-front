@@ -68,9 +68,17 @@ const login = async () => {
                                     />
                                     <label for="inputMemberPwd">비밀번호</label>
                                 </div>
-                                <div
-                                    class="d-flex align-items-center justify-content-between mt-4 mb-0"
-                                >
+                                    <div
+                                        class="d-flex align-items-center justify-content-between mt-4 mb-0"
+                                    >
+                                    <router-link
+                                        :to="{ name: 'member-signin' }"
+                                        class="btn">
+                                            회원가입
+                                    </router-link>
+                                    <button type="submit" class="btn">
+                                        아이디/비밀번호 찾기
+                                    </button>
                                     <button type="submit" class="btn btn-primary btn-block">
                                         로그인
                                     </button>
@@ -86,7 +94,7 @@ const login = async () => {
 
 <style scoped>
 .bg-gradient-primary {
-    background: linear-gradient(45deg, #6f42c1, #007bff);
+    background: linear-gradient(45deg, #7b4ad5, #75cfe1);
 }
 
 .card {

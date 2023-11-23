@@ -4,12 +4,10 @@ import axios from "axios";
 </script>
 
 <script>
-const recommendList = {};
 
 export default {
     name: "App",
     mounted() {
-        //페이지 시작시 자동 함수 실행
         this.fetchData();
     },
     data() {
@@ -42,12 +40,17 @@ export default {
             >
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        <h1 class="mx-auto text-white my-0 text-uppercase">Enjoytrip</h1>
+                        <h1 class="mx-auto text-white my-0 text-uppercase">STAYSSAFY</h1>
+                        <br/><br/>
                         <h2 class="text-black-50 mx-auto mt-2 mb-5">
-                            Enjoytrip과 함께 우리 지역의 관광지를 알아보고 나만의 여행 계획을
-                            세워보세요!
+                            <p>STAYSSAFY와 함께</p><p>우리 지역 관광지와 숙소를 알아보고</p>
+                            <p>나만의 여행 계획을 세워보세요!</p>
                         </h2>
-                        <a class="btn btn-primary" href="#">시작하기</a>
+                        <router-link
+                            :to="{ name: 'attraction-name-search' }"
+                            class="btn hButton">
+                            시작하기
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -62,7 +65,8 @@ export default {
                     </div>
                 </div>
                 <div class="mycardlist d-flex justify-content-center">
-                    <PresentationCardItem v-for="d in data" :key="d.contentId" :attraction="d">
+                    <PresentationCardItem 
+                        v-for="d in data" :key="d.contentId" :attraction="d">
                     </PresentationCardItem>
                 </div>
             </div>
@@ -75,6 +79,15 @@ export default {
                         <h2 class="text-black mb-4">핫플 공유하기</h2>
                         <p class="text-black-50">나만 알고 있는 여행지를 모두에게 공유해주세요!</p>
                     </div>
+                    <div class="col-lg-8">
+                        <router-link
+                            :to="{ name: 'article-list' }"
+                            class="btn btn-primary"
+                            style="width: 30%">
+                            공유하러 가기
+                        </router-link>
+                    </div>
+                    <br/><br/>
                     <img class="mb-5" src="src/assets/img/hotplaceexample.png" />
                 </div>
             </div>
@@ -165,5 +178,46 @@ h1,
 
 a {
     text-decoration: none;
+}
+
+.hButton{
+  background:#0d6efd;
+  color:#ffffff;
+  border:none;
+  position:relative;
+  height:60px;
+  font-size:2.8em;
+  padding:0 2em;
+  cursor:pointer;
+  transition:800ms ease all;
+  outline:none;
+}
+
+.hButton:hover{
+  background:#f2eee500;
+  color:#0d6efd;
+}
+
+.hButton:before,.hButton:after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  height:2px;
+  width:0;
+  background: #ffffff;
+  transition:400ms ease all;
+}
+
+.hButton:after{
+  right:inherit;
+  top:inherit;
+  left:0;
+  bottom:0;
+}
+
+.hButton:hover:before,.hButton:hover:after{
+  width:100%;
+  transition:800ms ease all;
 }
 </style>
