@@ -21,7 +21,8 @@ export const useBoardAxiosStore = defineStore(
                 console.log(err);
             }
             return articleList;
-        }
+        };
+
         const getDetail = async (articleno) => {
             let article;
             try {
@@ -74,7 +75,6 @@ export const useBoardAxiosStore = defineStore(
             }
             return pageCount;
         };
-
 
         return {
             getAll,

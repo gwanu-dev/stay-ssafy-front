@@ -66,11 +66,11 @@ const router = createRouter({
         }, {
           path: "info",
           name: "member-info",
-          component: () => import("@/components/member/MemberDetail.vue")
+          component: () => import("@/components/member/mypage/MemberDetail.vue")
         }, {
           path: "edit",
           name: "member-edit", //TODO
-          component: () => import("@/components/member/MemberDetail.vue")
+          component: () => import("@/components/member/mypage/MemberDetail.vue")
         }, {
           path: "logout",
           name: "member-logout",
