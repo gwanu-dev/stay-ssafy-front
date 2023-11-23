@@ -27,10 +27,10 @@ import MemberBookmarkList from "./MemberBookmarkList.vue"
                 <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
                     <MemberBoardList></MemberBoardList>
                 </div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
                     <MemberLikeList></MemberLikeList>
                 </div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
                     <MemberBookmarkList></MemberBookmarkList>
                 </div>
             </div>

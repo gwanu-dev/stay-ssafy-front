@@ -1,4 +1,25 @@
 <script setup>
+import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
+
+import { useMemberStore } from "@/stores/member.js";
+import { useMypageStore } from "@/stores/mypage.js"
+
+const memberStore = useMemberStore();
+const mypageStore = useMypageStore();
+
+const { member } = storeToRefs(memberStore);
+const { bookmarkList } = storeToRefs(mypageStore);
+
+const { getMember } = memberStore;
+const { getBookmarkListByMemberId } = mypageStore;
+
+onMounted(async () => {
+    await getMember(sessionStorage.getItem("accessToken"));
+    await getBookmarkListByMemberId(member.value.memberId);
+
+    console.log(bookmarkList.value);
+});
 
 </script>
 
@@ -22,11 +43,11 @@
                     </div>
                 </div>
             </div>
-            <PageNavigation
+            <!-- <PageNavigation
                 :current-page="currentPage"
                 :total-page="totalPage"
                 @pageChange="onPageChange"
-            ></PageNavigation>
+            ></PageNavigation> -->
         </div>
     </div>
 </template>
