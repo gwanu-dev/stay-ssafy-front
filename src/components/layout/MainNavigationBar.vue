@@ -41,7 +41,7 @@ const onLogClick = () => {
             :class="{ 'navbar-shrink': navbarAtZero, 'navbar-light': !navbarAtZero }"
         >
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="">STAYSSAFY</a>
+                <router-link class="navbar-brand" :to="{ name: 'main' }">STAYSSAFY</router-link>
                 <button
                     class="navbar-toggler navbar-toggler-right"
                     type="button"

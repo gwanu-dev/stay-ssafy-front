@@ -6,6 +6,7 @@ import BoardDetailMemo from "@/components/board/item/BoardDetailMemo.vue";
 import { storeToRefs } from "pinia";
 import { useLikeAxiosStore } from "@/api/like.js";
 import { useBoardStore } from "@/stores/board.js";
+
 const board = useBoardStore();
 const { article } = storeToRefs(board);
 const { getArticleDetail, deleteArticle } = board;
@@ -18,6 +19,9 @@ console.log(article);
 
 const sortedMemo = ref([]);
 const memoCount = ref(0);
+
+const isLiked = ref(false);
+
 onMounted(async () => {
     await getArticleDetail(articleno);
     console.log("[BoardDetail] article : ", article.value);
@@ -74,7 +78,6 @@ const onLikeClick = async () => {
     }
 };
 
-const isLiked = ref(false);
 </script>
 
 <template>
@@ -110,10 +113,16 @@ const isLiked = ref(false);
                             {{ article.registerTime }}
                         </div>
                     </div>
+
+                    <!-- 본문 부분 -->
+
                     <hr class="divider mb-3" />
                     <div class="my-4">
                         {{ article.content }}
                     </div>
+
+                    <!-- 좋아요 부분 -->
+
                     <div class="text-secondary my-3 flex justify-content-center">
                         <div class="q-pa-md">
                             <input
@@ -135,8 +144,11 @@ const isLiked = ref(false);
                             </label>
                         </div>
                     </div>
+
+                    
                     <hr class="divider mt-3 mb-3" />
-                    <!-- 메모 -->
+
+                    <!-- 메모 부분 -->
 
                     <div>
                         <BoardDetailMemo :articleno="articleno" :sortedmemo="sortedMemo" />

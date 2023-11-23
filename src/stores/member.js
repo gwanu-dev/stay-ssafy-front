@@ -64,7 +64,7 @@ export const useMemberStore = defineStore(
 
         const getMember = async (token) => {
             let memberInfo;
-            console.log(CONSOLE_PATH, "getMember Entered")
+            console.log (CONSOLE_PATH, "getMember Entered")
             let decodeToken = jwtDecode(token);
             console.log(CONSOLE_PATH, "decode Token", decodeToken);
             try {

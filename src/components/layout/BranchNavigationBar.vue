@@ -24,7 +24,7 @@ const onLogClick = () => {
             id="mainNav"
         >
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="" :to="{ name: 'main' }">STAYSSAFY</a>
+                <router-link class="navbar-brand" :to="{ name: 'main' }">STAYSSAFY</router-link>
                 <button
                     class="navbar-toggler navbar-toggler-right"
                     type="button"

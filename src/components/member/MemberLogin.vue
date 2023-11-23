@@ -27,7 +27,6 @@ const login = async () => {
     let code = await loginMember(memberDto);
     if (code === 201) {
         console.log("[MemberLogin.vue] isLogin : ", isLogin);
-
         alert("로그인 되었습니다. 환영합니다.");
 
         if (isLogin) {
@@ -68,17 +67,13 @@ const login = async () => {
                                     />
                                     <label for="inputMemberPwd">비밀번호</label>
                                 </div>
-                                    <div
-                                        class="d-flex align-items-center justify-content-between mt-4 mb-0"
-                                    >
-                                    <router-link
-                                        :to="{ name: 'member-signin' }"
-                                        class="btn">
-                                            회원가입
+                                <div
+                                    class="d-flex align-items-center justify-content-between mt-4 mb-0"
+                                >
+                                    <router-link :to="{ name: 'member-signin' }" class="btn">
+                                        회원가입
                                     </router-link>
-                                    <button type="submit" class="btn">
-                                        아이디/비밀번호 찾기
-                                    </button>
+                                    <button type="submit" class="btn">아이디/비밀번호 찾기</button>
                                     <button type="submit" class="btn btn-primary btn-block">
                                         로그인
                                     </button>

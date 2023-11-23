@@ -8,14 +8,14 @@ import { Quasar } from 'quasar'
 import { OhVueIcon, addIcons } from "oh-vue-icons";
 import {
   BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll, BiArrowReturnRight,
-  BiTelephone
+  BiTelephone, BiBookmarkStar,  BiBookmarkStarFill 
 } from "oh-vue-icons/icons";
 
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 
-addIcons( BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll , BiArrowReturnRight, BiTelephone,);
+addIcons( BiHeart, BiHeartFill, BiXCircle, BiPencil, BiReplyAll , BiArrowReturnRight, BiTelephone, BiBookmarkStar,  BiBookmarkStarFill );
 
 // ...
 import '@quasar/extras/roboto-font/roboto-font.css'

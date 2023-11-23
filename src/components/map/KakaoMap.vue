@@ -255,8 +255,8 @@ const loadHotelMarker = () => {
         const imgSrc = "src/assets/img/map-icons/hotel.svg";
         const imgSize = new window.kakao.maps.Size(24, 24);
         const markerImage = new window.kakao.maps.MarkerImage(imgSrc, imgSize);
-
-        let iwContent = `
+        let iwContent =
+            `
         <div class="container m-2 p-1 info-window">
             <div class="font-weight-bold m-1"><h6>${hotel.placeName}</h6></div>
             <div>
@@ -273,9 +273,9 @@ const loadHotelMarker = () => {
                 </div>
             </div>
             <div class="d-flex justify-content-end align-items-end">
-                <button type="button" class="btn btn-warning m-1" onclick="window.open(${
-                    hotel.placeUrl
-                }})">카카오지도에서보기</button>
+                <button type="button" class="btn btn-success m-1" href="` +
+            hotel.placeUrl +
+            `">네이버에서보기</button>;
             </div>
         </div>
         `;
