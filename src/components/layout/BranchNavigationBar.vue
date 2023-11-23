@@ -24,7 +24,7 @@ const onLogClick = () => {
             id="mainNav"
         >
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="" :to="{ name: 'main' }">EnjoyTrip</a>
+                <a class="navbar-brand" href="" :to="{ name: 'main' }">STAYSSAFY</a>
                 <button
                     class="navbar-toggler navbar-toggler-right"
                     type="button"
@@ -46,8 +46,7 @@ const onLogClick = () => {
                             >
                             <!-- <a id="tripbyarea" class="nav-link" href="#">지역별여행지</a> -->
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="">나의여행계획</a></li>
-                        <li class="nav-item"><a class="nav-link" href="">핫플자랑하기</a></li>
+                        <li class="nav-item"><a class="nav-link" href="">지역별숙소찾기</a></li>
                         <li class="nav-item">
                             <router-link id="board" class="nav-link" :to="{ name: 'board' }"
                                 >여행정보공유</router-link

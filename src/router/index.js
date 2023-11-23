@@ -83,12 +83,19 @@ const router = createRouter({
       path: "/attraction",
       name: "attraction",
       component: () => import("@/views/TheMapView.vue"),
-    }
+      children: [
+        {
+          path: "/search",
+          name: "attraction-name-search",
+          component: () => import("@/components/map/KakaoMap.vue")
+        }
         // {
         //   path: "/error",
         //   name: "error",
         //   component : Error,
         // },
+      ]
+    }
   ],
 });
 
