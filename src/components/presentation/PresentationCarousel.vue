@@ -4,7 +4,6 @@ import axios from "axios";
 </script>
 
 <script>
-
 export default {
     name: "App",
     mounted() {
@@ -18,7 +17,7 @@ export default {
     methods: {
         fetchData() {
             axios
-                .get("http://localhost:80/enjoytrip/attraction/recommend")
+                .get("api/enjoytrip/attraction/recommend")
                 .then((response) => {
                     //recommendList = response.data;
                     this.data = response.data;
@@ -41,14 +40,16 @@ export default {
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         <h1 class="mx-auto text-white my-0 text-uppercase">STAYSSAFY</h1>
-                        <br/><br/>
+                        <br /><br />
                         <h2 class="text-black-50 mx-auto mt-2 mb-5">
-                            <p>STAYSSAFY와 함께</p><p>우리 지역 관광지와 숙소를 알아보고</p>
+                            <p>STAYSSAFY와 함께</p>
+                            <p>우리 지역 관광지와 숙소를 알아보고</p>
                             <p>나만의 여행 계획을 세워보세요!</p>
                         </h2>
                         <router-link
                             :to="{ name: 'attraction-name-search' }"
-                            class="btn hButton">
+                            class="btn hButton text-bold"
+                        >
                             시작하기
                         </router-link>
                     </div>
@@ -65,8 +66,7 @@ export default {
                     </div>
                 </div>
                 <div class="mycardlist d-flex justify-content-center">
-                    <PresentationCardItem 
-                        v-for="d in data" :key="d.contentId" :attraction="d">
+                    <PresentationCardItem v-for="d in data" :key="d.contentId" :attraction="d">
                     </PresentationCardItem>
                 </div>
             </div>
@@ -82,13 +82,14 @@ export default {
                     <div class="col-lg-8">
                         <router-link
                             :to="{ name: 'article-list' }"
-                            class="btn btn-primary"
-                            style="width: 30%">
+                            class="btn btn-success"
+                            style="width: 30%"
+                        >
                             공유하러 가기
                         </router-link>
                     </div>
-                    <br/><br/>
-                    <img class="mb-5" src="src/assets/img/hotplaceexample.png" />
+                    <br /><br />
+                    <img class="my-5 rounded" src="src/assets/img/hotplaceexample.png" />
                 </div>
             </div>
         </section>
@@ -180,44 +181,46 @@ a {
     text-decoration: none;
 }
 
-.hButton{
-  background:#0d6efd;
-  color:#ffffff;
-  border:none;
-  position:relative;
-  height:60px;
-  font-size:2.8em;
-  padding:0 2em;
-  cursor:pointer;
-  transition:800ms ease all;
-  outline:none;
+.hButton {
+    background: #51a49a;
+    color: #ffffff;
+    border: none;
+    position: relative;
+    height: 60px;
+    font-size: 2.8em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
 }
 
-.hButton:hover{
-  background:#f2eee500;
-  color:#0d6efd;
+.hButton:hover {
+    background: #f2eee500;
+    color: #51a49a;
 }
 
-.hButton:before,.hButton:after{
-  content:'';
-  position:absolute;
-  top:0;
-  right:0;
-  height:2px;
-  width:0;
-  background: #ffffff;
-  transition:400ms ease all;
+.hButton:before,
+.hButton:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: #ffffff;
+    transition: 400ms ease all;
 }
 
-.hButton:after{
-  right:inherit;
-  top:inherit;
-  left:0;
-  bottom:0;
+.hButton:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
 }
 
-.hButton:hover:before,.hButton:hover:after{
-  width:100%;
-  transition:800ms ease all;
+.hButton:hover:before,
+.hButton:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
 }
 </style>

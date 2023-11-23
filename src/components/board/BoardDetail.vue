@@ -6,6 +6,8 @@ import BoardDetailMemo from "@/components/board/item/BoardDetailMemo.vue";
 import { storeToRefs } from "pinia";
 import { useLikeAxiosStore } from "@/api/like.js";
 import { useBoardStore } from "@/stores/board.js";
+import { HttpStatusCode } from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const board = useBoardStore();
 const { article } = storeToRefs(board);
@@ -14,13 +16,16 @@ const { getArticleDetail, deleteArticle } = board;
 const articleno = useRoute().params.articleno;
 const likeAxios = useLikeAxiosStore();
 
-const { registLike, deleteLike } = likeAxios;
+const { registLike, deleteLike, confirmLike } = likeAxios;
 console.log(article);
 
 const sortedMemo = ref([]);
 const memoCount = ref(0);
 
 const isLiked = ref(false);
+let token = sessionStorage.getItem("accessToken");
+let decodeToken;
+let id;
 
 onMounted(async () => {
     await getArticleDetail(articleno);
@@ -42,6 +47,15 @@ onMounted(async () => {
     if (sortedMemo.value != null) memoCount.value = sortedMemo.value.length;
     else {
         memoCount.value = 0;
+    }
+    if (token) {
+        decodeToken = jwtDecode(token);
+        id = decodeToken.userId;
+        let res = await confirmLike(article.value.articleNo, id);
+        if (res.status === HttpStatusCode.Ok) {
+            isLiked.value = true;
+            article.value.likeCount -= 1;
+        }
     }
 });
 
@@ -72,12 +86,11 @@ const onDeleteArticle = async () => {
 const onLikeClick = async () => {
     console.log("like Clicked!", article);
     if (isLiked.value) {
-        await deleteLike(articleno, article.value.memberId);
+        await deleteLike(articleno, id);
     } else {
-        await registLike(articleno, article.value.memberId);
+        await registLike(articleno, id);
     }
 };
-
 </script>
 
 <template>
@@ -140,12 +153,11 @@ const onLikeClick = async () => {
                             >
                                 <v-icon v-show="!isLiked" name="bi-heart" />
                                 <v-icon v-show="isLiked" name="bi-heart-fill" />
-                                좋아요 {{ article.likeCount + isLiked ? 1 : 0 }}
+                                좋아요 {{ article.likeCount + (isLiked ? 1 : 0) }}
                             </label>
                         </div>
                     </div>
 
-                    
                     <hr class="divider mt-3 mb-3" />
 
                     <!-- 메모 부분 -->

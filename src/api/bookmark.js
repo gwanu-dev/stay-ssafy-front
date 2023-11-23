@@ -16,3 +16,9 @@ export const deleteBookmark = async (contentId, memberId) => {
     console.log(CONSOLE_ROUTE, "delete bookmark : ", res);
     return res;
 }
+
+export const confirmBookmark = async (contentId, memberId) => {
+    let res = await local.get(BASE_URL + `?contentId=${contentId}&memberId=${memberId}`);
+    console.log(CONSOLE_ROUTE, "confirm bookmark : ", res);
+    return res;
+}

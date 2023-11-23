@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useAttractionStore } from "@/stores/attraction.js";
 // const { kakao } = window;
@@ -9,15 +9,20 @@ import { jwtDecode } from "jwt-decode";
 const attractionStore = useAttractionStore();
 const { isDetailOpen, attractionDetail } = storeToRefs(attractionStore);
 
-import { registBookmark, deleteBookmark } from "@/api/bookmark.js";
-let token = localStorage.getItem["accessToken"];
+import { registBookmark, deleteBookmark, confirmBookmark } from "@/api/bookmark.js";
+import { HttpStatusCode } from "axios";
+let token = sessionStorage.getItem("accessToken");
+let decodeToken;
+let id;
+
 const link = ref(`https://search.naver.com/search.naver?query=${attractionDetail.value.title}`);
 const isBookmarked = ref(false);
+
 const onBookmarkClick = async () => {
+    console.log(token);
     if (token) {
         console.log("Bookmark Clicked!", attractionDetail.value);
-        let decodeToken = jwtDecode(token);
-        let id = decodeToken.userId;
+
         if (isBookmarked.value) {
             await deleteBookmark(attractionDetail.value.contentId, id);
         } else {
@@ -29,6 +34,17 @@ const onBookmarkClick = async () => {
         router.push({ name: "member-login" });
     }
 };
+
+onMounted(async () => {
+    if (token) {
+        decodeToken = jwtDecode(token);
+        id = decodeToken.userId;
+        let res = await confirmBookmark(attractionDetail.value.contentId, id);
+        if (res.status === HttpStatusCode.Ok) {
+            isBookmarked.value = true;
+        }
+    }
+});
 </script>
 
 <template>

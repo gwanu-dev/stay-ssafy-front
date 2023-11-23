@@ -4,6 +4,13 @@ import { storeToRefs } from "pinia";
 import MapAttractionItem from "@/components/map/item/MapAttractionItem.vue";
 import MapDetailItem from "@/components/map/item/MapDetailItem.vue";
 import { useAttractionStore } from "@/stores/attraction.js";
+import router from "@/router";
+import { useMenuStore } from "@/stores/menu";
+
+const menuStore = useMenuStore();
+
+const { menuList, menuState } = storeToRefs(menuStore);
+
 // const { kakao } = window;
 const attractionStore = useAttractionStore();
 const { searchAttractions, getSidoCode, getGugunCode, getContentType, getKakaoHotelList } =
@@ -95,6 +102,13 @@ onMounted(async () => {
         /* global kakao */
         script.onload = () => window.kakao.maps.load(() => initMap());
         document.head.appendChild(script);
+
+        if (sessionStorage.getItem("accessToken")) {
+            menuState.value = true;
+        } else {
+            menuState.value = false;
+        }
+        console.log(menuState);
     }
 
     await getSidoCode();
@@ -247,6 +261,10 @@ const getHotelList = async () => {
 
 let infoHotelWindows = [];
 
+const logoClick = () => {
+    router.push({ name: "main" });
+};
+
 const loadHotelMarker = () => {
     deleteHotelMarkers();
     hotelMarkers.value = [];
@@ -341,8 +359,27 @@ const loadHotelMarker = () => {
             class="p-1"
         >
             <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
-                <q-img class="my-4" src="src/assets/img/logos/main-logo1.svg" style="height: 100px">
+                <q-img
+                    class="my-4"
+                    src="src/assets/img/logos/main-logo1.svg"
+                    style="height: 100px"
+                    @click="logoClick"
+                >
                 </q-img>
+                <div class="d-flex justify-content-end text-black">
+                    <router-link id="board" class="nav-link mx-3" to="board"
+                        >여행정보공유</router-link
+                    >
+                    <span v-for="menu in menuList" :key="menu.routeName">
+                        <router-link
+                            class="mx-3 text-black"
+                            id="navbar-login"
+                            v-if="menu.show"
+                            :to="{ name: menu.routeName }"
+                            >{{ menu.name }}
+                        </router-link>
+                    </span>
+                </div>
                 <div class="mr-4">
                     <div class="q-pa-md" style="display: flex; align-items: center">
                         <!-- Input -->
@@ -446,5 +483,9 @@ const loadHotelMarker = () => {
 .info-window {
     width: 250px;
     height: 170px;
+}
+
+a {
+    text-decoration: none;
 }
 </style>
