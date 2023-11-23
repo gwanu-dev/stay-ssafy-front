@@ -10,16 +10,16 @@ import { useBoardStore } from "@/stores/board.js";
 import { useMypageStore } from "@/stores/mypage.js";
 
 const memberStore = useMemberStore();
-const board = useBoardStore();
-const mypage = useMypageStore();
+const boardStore = useBoardStore();
+const mypageStore = useMypageStore();
 
 const { member } = storeToRefs(memberStore);
-const { articleCount } = storeToRefs(board);
-const { memberArticleList } = storeToRefs(mypage);
+const { articleCount } = storeToRefs(boardStore);
+const { memberArticleList } = storeToRefs(mypageStore);
 
 const { getMember } = memberStore;
-const { getArticleCount } = board;
-const { getArticleListByMemberId } = mypage;
+const { getArticleCount } = boardStore;
+const { getArticleListByMemberId } = mypageStore;
 
 const currentPage = ref(1);
 const totalPage = ref(0);
