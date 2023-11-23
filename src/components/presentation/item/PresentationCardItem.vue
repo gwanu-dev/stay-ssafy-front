@@ -33,5 +33,7 @@ defineProps({ attraction: Object });
 </template>
 
 <style scoped>
-
+.card:hover {
+    transform: scale(1.02);
+}
 </style>

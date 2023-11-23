@@ -1,5 +1,8 @@
 <script setup>
 import MemberModifyVue from "./MemberModify.vue";
+import MemberBoardList from "./MemberBoardList.vue";
+import MemberLikeList from "./MemberLikeList.vue";
+import MemberBookmarkList from "./MemberBookmarkList.vue"
 </script>
 
 <template>
@@ -9,11 +12,11 @@ import MemberModifyVue from "./MemberModify.vue";
             <a class="list-group-item list-group-item-action active" 
                 id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">내 정보</a>
             <a class="list-group-item list-group-item-action" 
-                id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">내가 쓴 글</a>
+                id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">내가 쓴 게시글</a>
             <a class="list-group-item list-group-item-action" 
-                id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">북마크 한 관광지</a>
+                id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">좋아요 한 게시글</a>
             <a class="list-group-item list-group-item-action" 
-                id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">좋아요 한 게시글</a>
+                id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">북마크 한 관광지</a>
             </div>
         </div>
         <div class="col-8">
@@ -22,13 +25,13 @@ import MemberModifyVue from "./MemberModify.vue";
                     <MemberModifyVue></MemberModifyVue>
                 </div>
                 <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-                    1545
-                </div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
-                    asda
+                    <MemberBoardList></MemberBoardList>
                 </div>
                 <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
-                    898
+                    <MemberLikeList></MemberLikeList>
+                </div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+                    <MemberBookmarkList></MemberBookmarkList>
                 </div>
             </div>
         </div>
