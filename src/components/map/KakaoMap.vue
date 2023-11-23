@@ -2,18 +2,25 @@
 import { ref, watch, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import MapAttractionItem from "@/components/map/item/MapAttractionItem.vue";
+import MapDetailItem from "@/components/map/item/MapDetailItem.vue";
 import { useAttractionStore } from "@/stores/attraction.js";
 // const { kakao } = window;
 const attractionStore = useAttractionStore();
 const { searchAttractions, getSidoCode, getGugunCode, getContentType } = attractionStore;
-const { attractionList, sidoCodeList, gugunCodeList, contentTypeList } =
-    storeToRefs(attractionStore);
+const {
+    attractionList,
+    sidoCodeList,
+    gugunCodeList,
+    contentTypeList,
+    isDetailOpen,
+    attractionDetail,
+} = storeToRefs(attractionStore);
 
 var map;
 const positions = ref([]);
 const markers = ref([]);
 
-const text = ref("");
+const inputKeyword = ref("");
 const leftDrawerOpen = ref(false);
 
 const sidoValue = ref("0");
@@ -26,6 +33,35 @@ const typeDto = ref({
     contentTypeId: "1",
     keyword: "",
 });
+
+const imageSrcMapper = (contentTypeCode) => {
+    if (contentTypeCode === 12) {
+        return "src/assets/img/map-icons/monument.svg";
+    }
+    if (contentTypeCode === 14) {
+        return "src/assets/img/map-icons/cableway.svg";
+    }
+    if (contentTypeCode === 15) {
+        return "src/assets/img/map-icons/bonfire.svg";
+    }
+    if (contentTypeCode === 25) {
+        return "src/assets/img/map-icons/course.svg";
+    }
+    if (contentTypeCode === 28) {
+        return "src/assets/img/map-icons/boot.svg";
+    }
+    if (contentTypeCode === 32) {
+        return "src/assets/img/map-icons/motel.svg";
+    }
+    if (contentTypeCode === 38) {
+        return "src/assets/img/map-icons/wallet.svg";
+    }
+    if (contentTypeCode === 39) {
+        return "src/assets/img/map-icons/restaurant.svg";
+    }
+};
+
+let selectedMarker = null;
 
 watch(sidoValue, async () => {
     console.log("sido Selected!");
@@ -41,7 +77,7 @@ const search = async () => {
     typeDto.value.sido = sidoValue.value;
     typeDto.value.gugun = gugunValue.value;
     typeDto.value.contentTypeId = contentTypeValue.value;
-    typeDto.value.keyword = text.value;
+    typeDto.value.keyword = inputKeyword.value;
     await searchAttractions(typeDto.value);
     loadMarkers();
 };
@@ -72,7 +108,6 @@ const initMap = () => {
     };
     map = new window.kakao.maps.Map(container, options);
 };
-
 // watch(
 //     () => props.stations.value,
 //     () => {
@@ -102,32 +137,7 @@ const initMap = () => {
 //     { deep: true }
 // );
 
-const imageSrcMapper = (contentTypeCode) => {
-    if (contentTypeCode === 12) {
-        return "src/assets/img/map-icons/monument.svg";
-    }
-    if (contentTypeCode === 14) {
-        return "src/assets/img/map-icons/cableway.svg";
-    }
-    if (contentTypeCode === 15) {
-        return "src/assets/img/map-icons/bonfire.svg";
-    }
-    if (contentTypeCode === 25) {
-        return "src/assets/img/map-icons/course.svg";
-    }
-    if (contentTypeCode === 28) {
-        return "src/assets/img/map-icons/boot.svg";
-    }
-    if (contentTypeCode === 32) {
-        return "src/assets/img/map-icons/motel.svg";
-    }
-    if (contentTypeCode === 38) {
-        return "src/assets/img/map-icons/wallet.svg";
-    }
-    if (contentTypeCode === 39) {
-        return "src/assets/img/map-icons/restaurant.svg";
-    }
-};
+let infoWindows = [];
 
 const loadMarkers = () => {
     // 현재 표시되어있는 marker들이 있다면 map에 등록된 marker를 제거한다.
@@ -135,21 +145,30 @@ const loadMarkers = () => {
 
     // 마커를 생성합니다
     markers.value = [];
+
+    if (attractionList.value != null) {
+        const moveLatLng = new kakao.maps.LatLng(
+            attractionList.value[0].latitude,
+            attractionList.value[0].longitude
+        );
+        map.panTo(moveLatLng);
+    }
     attractionList.value.forEach((attraction) => {
         const imgSrc = imageSrcMapper(attraction.contentTypeId);
         const imgSize = new window.kakao.maps.Size(24, 24);
         const markerImage = new window.kakao.maps.MarkerImage(imgSrc, imgSize);
 
         let iwContent = `
-        <div style="">
-            <div class="font-weight-bold">${attraction.title}</divs>
-            <div class="text-grey font-weight-light">${attraction.addr1}</div>
+        <div style="container">
+            <div class="font-weight-bold m-2">${attraction.title}</divs>
+            <div class="text-grey font-weight-light m-1">${attraction.addr1}</div>
         </div>
         `;
+        const latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
 
         const marker = new kakao.maps.Marker({
             map: map, // 마커를 표시할 지도
-            position: new kakao.maps.LatLng(attraction.latitude, attraction.longitude), // 마커를 표시할 위치
+            position: latlng, // 마커를 표시할 위치
             title: attraction.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨.
             clickable: true, // // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
             image: markerImage, // 마커의 이미지
@@ -157,6 +176,12 @@ const loadMarkers = () => {
         const infoWindow = new kakao.maps.InfoWindow({
             content: iwContent,
         });
+        const infoWindow2 = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: true,
+        });
+        infoWindows.push(infoWindow2);
+
         kakao.maps.event.addListener(marker, "mouseover", () => {
             infoWindow.open(map, marker);
         });
@@ -164,7 +189,19 @@ const loadMarkers = () => {
             infoWindow.close();
         });
         kakao.maps.event.addListener(marker, "click", () => {
-            infoWindow.close();
+            // if (!selectedMarker || selectedMarker !== marker) {
+            //     !!selectedMarker &&
+
+            map.panTo(latlng);
+            for (let infowindowTemp of infoWindows) {
+                infowindowTemp.close();
+            }
+
+            infoWindow2.open(map, marker);
+            isDetailOpen.value = true;
+            attractionDetail.value = attraction;
+
+            // selectedMarker = marker;
         });
         markers.value.push(marker);
     });
@@ -208,17 +245,17 @@ const deleteMarkers = () => {
             v-model="leftDrawerOpen"
             side="left"
             bordered
-            :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
             :width="500"
             class="p-1"
         >
             <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
-                <h3>Stay SSAFY</h3>
+                <q-img class="my-4" src="src/assets/img/logos/main-logo1.svg" style="height: 100px">
+                </q-img>
                 <div class="mr-4">
                     <div class="q-pa-md" style="display: flex; align-items: center">
                         <!-- Input -->
                         <q-input
-                            v-model="text"
+                            v-model="inputKeyword"
                             label="Input Field"
                             outlined
                             dense
@@ -226,7 +263,7 @@ const deleteMarkers = () => {
                         />
 
                         <!-- Button -->
-                        <q-btn @click="search" label="검색" color="primary" class="search-btn" />
+                        <q-btn @click="search" label="검색" color="secondary" class="search-btn" />
                     </div>
 
                     <div class="" style="display: flex; align-items: center">
@@ -272,9 +309,15 @@ const deleteMarkers = () => {
                         </select>
                     </div>
 
-                    <div class="">
+                    <div v-show="!isDetailOpen" class="">
                         <div v-for="attraction in attractionList" :key="attraction.contentId">
                             <MapAttractionItem :attraction="attraction" />
+                        </div>
+                    </div>
+
+                    <div v-if="isDetailOpen" class="">
+                        <div>
+                            <MapDetailItem></MapDetailItem>
                         </div>
                     </div>
                 </div>
@@ -296,7 +339,7 @@ const deleteMarkers = () => {
 }
 
 .main-input {
-    width: 330px;
+    width: 380px;
     margin-left: 1px;
 }
 

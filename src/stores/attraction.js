@@ -9,8 +9,8 @@ export const useAttractionStore = defineStore(
     "attractionStore",
 
     () => {
-        
-
+        const isDetailOpen = ref(false);
+        const attractionDetail = ref();
         const attractionList = ref();
         const sidoCodeList = ref();
         const gugunCodeList = ref();
@@ -67,7 +67,7 @@ export const useAttractionStore = defineStore(
         }
 
         return {
-            attractionList, sidoCodeList, gugunCodeList, contentTypeList, recommendList,
+            attractionList, sidoCodeList, gugunCodeList, contentTypeList, recommendList, isDetailOpen, attractionDetail,
             searchAttractions, getSidoCode, getGugunCode, getContentType, getRecommends
         }
     }
