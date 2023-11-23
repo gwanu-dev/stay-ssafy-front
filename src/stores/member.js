@@ -27,7 +27,15 @@ export const useMemberStore = defineStore(
             emailCheck,
         } = memberaxios;
 
-        const member = ref();
+        const member = ref({
+            memberName: "",
+            memberId: "",
+            memberPassword: "",
+            emailId: "",
+            emailDomain: "",
+            sido: "0",
+            gugun: "0",            
+        });
         const isLogin = ref(false);
         const isLoginError = ref(false);
         const isValidToken = ref(false);
