@@ -6,7 +6,8 @@ import MapDetailItem from "@/components/map/item/MapDetailItem.vue";
 import { useAttractionStore } from "@/stores/attraction.js";
 // const { kakao } = window;
 const attractionStore = useAttractionStore();
-const { searchAttractions, getSidoCode, getGugunCode, getContentType } = attractionStore;
+const { searchAttractions, getSidoCode, getGugunCode, getContentType, getKakaoHotelList } =
+    attractionStore;
 const {
     attractionList,
     sidoCodeList,
@@ -19,6 +20,7 @@ const {
 var map;
 const positions = ref([]);
 const markers = ref([]);
+const hotelMarkers = ref([]);
 
 const inputKeyword = ref("");
 const leftDrawerOpen = ref(false);
@@ -26,6 +28,7 @@ const leftDrawerOpen = ref(false);
 const sidoValue = ref("0");
 const gugunValue = ref("0");
 const contentTypeValue = ref("0");
+const hotelList = ref();
 
 const typeDto = ref({
     sido: "1",
@@ -61,8 +64,6 @@ const imageSrcMapper = (contentTypeCode) => {
     }
 };
 
-let selectedMarker = null;
-
 watch(sidoValue, async () => {
     console.log("sido Selected!");
     console.log(sidoValue.value);
@@ -79,7 +80,7 @@ const search = async () => {
     typeDto.value.contentTypeId = contentTypeValue.value;
     typeDto.value.keyword = inputKeyword.value;
     await searchAttractions(typeDto.value);
-    loadMarkers();
+    loadAttractionMarkers();
 };
 
 onMounted(async () => {
@@ -107,6 +108,8 @@ const initMap = () => {
         level: 3,
     };
     map = new window.kakao.maps.Map(container, options);
+    var mapTypeControl = new kakao.maps.MapTypeControl();
+    map.addControl(mapTypeControl.kakao.maps.ControlPosition.TOPRIGHT);
 };
 // watch(
 //     () => props.stations.value,
@@ -139,10 +142,10 @@ const initMap = () => {
 
 let infoWindows = [];
 
-const loadMarkers = () => {
+const loadAttractionMarkers = () => {
     // 현재 표시되어있는 marker들이 있다면 map에 등록된 marker를 제거한다.
     deleteMarkers();
-
+    deleteHotelMarkers();
     // 마커를 생성합니다
     markers.value = [];
 
@@ -196,7 +199,7 @@ const loadMarkers = () => {
             for (let infowindowTemp of infoWindows) {
                 infowindowTemp.close();
             }
-
+            infoWindow.close();
             infoWindow2.open(map, marker);
             isDetailOpen.value = true;
             attractionDetail.value = attraction;
@@ -220,6 +223,92 @@ const deleteMarkers = () => {
     if (markers.value.length > 0) {
         markers.value.forEach((marker) => marker.setMap(null));
     }
+    for (let infowindowTemp of infoWindows) {
+        infowindowTemp.close();
+    }
+};
+
+const deleteHotelMarkers = () => {
+    if (hotelMarkers.value.length > 0) {
+        hotelMarkers.value.forEach((marker) => marker.setMap(null));
+    }
+    for (let infoHotelWindow of infoHotelWindows) {
+        infoHotelWindow.close();
+    }
+};
+
+const getHotelList = async () => {
+    let center = map.getCenter();
+    hotelList.value = await getKakaoHotelList(center);
+    console.log(hotelList.value);
+
+    loadHotelMarker();
+};
+
+let infoHotelWindows = [];
+
+const loadHotelMarker = () => {
+    deleteHotelMarkers();
+    hotelMarkers.value = [];
+
+    hotelList.value.forEach((hotel) => {
+        const imgSrc = "src/assets/img/map-icons/hotel.svg";
+        const imgSize = new window.kakao.maps.Size(24, 24);
+        const markerImage = new window.kakao.maps.MarkerImage(imgSrc, imgSize);
+
+        let iwContent = `
+        <div class="container m-2 p-1 info-window">
+            <div class="font-weight-bold m-1"><h6>${hotel.placeName}</h6></div>
+            <div>
+                분류 > <b class="text-grey font-weight-light m-1"> ${hotel.categoryName.replace(
+                    "여행 > 숙박 > ",
+                    ""
+                )}</b>
+            </div>
+            <div class="text-grey font-weight-light my-1">${hotel.roadAddressName}</div>
+            <div class="font-weight-light my-1">
+                <div>
+                <img src="src/assets/img/map-icons/phone.svg" style="width:15px"/> 
+                ${hotel.phone}
+                </div>
+            </div>
+            <div class="d-flex justify-content-end align-items-end">
+                <button type="button" class="btn btn-warning m-1" onclick="window.open(${
+                    hotel.placeUrl
+                }})">카카오지도에서보기</button>
+            </div>
+        </div>
+        `;
+        const latlng = new kakao.maps.LatLng(hotel.lat, hotel.lng);
+
+        const marker = new kakao.maps.Marker({
+            map: map, // 마커를 표시할 지도
+            position: latlng, // 마커를 표시할 위치
+            title: hotel.placeName, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됨.
+            clickable: true, // // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+            image: markerImage, // 마커의 이미지
+        });
+
+        const infoWindow = new kakao.maps.InfoWindow({
+            content: iwContent,
+            removable: true,
+        });
+        infoHotelWindows.push(infoWindow);
+
+        kakao.maps.event.addListener(marker, "click", () => {
+            // if (!selectedMarker || selectedMarker !== marker) {
+            //     !!selectedMarker &&
+
+            map.panTo(latlng);
+            for (let infowindowTemp of infoHotelWindows) {
+                infowindowTemp.close();
+            }
+            infoWindow.open(map, marker);
+
+            // selectedMarker = marker;
+        });
+        hotelMarkers.value.push(marker);
+    });
 };
 </script>
 
@@ -232,11 +321,14 @@ const deleteMarkers = () => {
             <q-page-sticky position="left" :offset="[18, 68]">
                 <q-btn
                     round
-                    color="primary"
+                    color="secondary"
                     icon="arrow_back"
                     :class="{ 'rotate-180': !leftDrawerOpen }"
                     @click="leftDrawerOpen = !leftDrawerOpen"
                 />
+            </q-page-sticky>
+            <q-page-sticky postiion="bottom" :offset="[18, 68]">
+                <q-btn color="secondary" label="주변 숙소 보기" @click="getHotelList" />
             </q-page-sticky>
         </q-header>
 
@@ -349,5 +441,10 @@ const deleteMarkers = () => {
 
 .search-btn {
     width: 90px;
+}
+
+.info-window {
+    width: 250px;
+    height: 170px;
 }
 </style>

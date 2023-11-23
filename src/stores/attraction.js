@@ -1,6 +1,10 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import {getAttractionList, getSidoCodeList, getGugunCodeList, getContentTypeList} from '@/api/attraction.js'
+import {
+    getAttractionList, getSidoCodeList,
+    getGugunCodeList, getContentTypeList,
+    getKakaoMapHotelList,
+} from '@/api/attraction.js'
 
 const CONSOLE_ROUTE = "[stores/attraction.js]"
 
@@ -66,9 +70,18 @@ export const useAttractionStore = defineStore(
             }
         }
 
+        const getKakaoHotelList = async(latlng) => {
+            try {
+                let res = await getKakaoMapHotelList(latlng);
+                return res.data;
+            } catch (err) {
+                console.log(CONSOLE_ROUTE, err);
+            }
+        }
+
         return {
             attractionList, sidoCodeList, gugunCodeList, contentTypeList, recommendList, isDetailOpen, attractionDetail,
-            searchAttractions, getSidoCode, getGugunCode, getContentType, getRecommends
+            searchAttractions, getSidoCode, getGugunCode, getContentType, getRecommends, getKakaoHotelList
         }
     }
 )
