@@ -19,8 +19,6 @@ export const useBoardStore = defineStore(
             getCount,
         } = boardaxios;
 
-        
-        
         const getArticleList = async (typeDto) => {
             console.log(typeDto);
             articleList.value = await getAll(typeDto);
