@@ -19,7 +19,7 @@ import MemberBookmarkList from "./MemberBookmarkList.vue"
                 id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">북마크 한 관광지</a>
             </div>
         </div>
-        <div class="col-8">
+        <div class="col-9">
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
                     <MemberModifyVue></MemberModifyVue>

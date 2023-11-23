@@ -364,7 +364,7 @@ const loadHotelMarker = () => {
                     src="src/assets/img/logos/main-logo1.svg"
                     style="height: 100px"
                     @click="logoClick"
-                >
+                >d
                 </q-img>
                 <div class="d-flex justify-content-end text-black">
                     <router-link id="board" class="nav-link mx-3" to="board"
@@ -385,7 +385,7 @@ const loadHotelMarker = () => {
                         <!-- Input -->
                         <q-input
                             v-model="inputKeyword"
-                            label="Input Field"
+                            label="키워드를 입력해주세요"
                             outlined
                             dense
                             class="main-input"

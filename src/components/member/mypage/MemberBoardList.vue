@@ -62,7 +62,7 @@ const onPageChange = (val) => {
                     <thead>
                         <tr class="text-center">
                             <th scope="col-1">글번호</th>
-                            <th scope="col-4">제목</th>
+                            <th scope="col-3">제목</th>
                             <th scope="col-2">작성자</th>
                             <th scope="col-1">조회수</th>
                             <th scope="col-1">댓글수</th>

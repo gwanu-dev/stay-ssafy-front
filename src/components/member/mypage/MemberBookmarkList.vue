@@ -1,9 +1,9 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { storeToRefs } from "pinia";
 
 import { useMemberStore } from "@/stores/member.js";
-import { useMypageStore } from "@/stores/mypage.js"
+import { useMypageStore } from "@/stores/mypage.js";
 
 const memberStore = useMemberStore();
 const mypageStore = useMypageStore();
@@ -21,6 +21,7 @@ onMounted(async () => {
     console.log(bookmarkList.value);
 });
 
+const isDetailOpen = ref(false);
 </script>
 
 <template>

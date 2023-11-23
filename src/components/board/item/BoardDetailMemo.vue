@@ -8,7 +8,7 @@ import { useBoardStore } from "@/stores/board.js";
 const board = useBoardStore();
 const { article } = storeToRefs(board);
 import { useMemoAxiosStore } from "@/api/memo";
-
+import { jwtDecode } from "jwt-decode";
 const memoAxios = useMemoAxiosStore();
 const editState = ref(false);
 const editNum = ref(0);
@@ -37,10 +37,17 @@ const subMemo = ref({
 });
 
 const sortedMemo = ref([]);
+let token = sessionStorage.getItem("accessToken");
+let decodeToken;
+let id;
 
 onMounted(async () => {
     console.log("memo", props.articleno);
     console.log(article.value.memos);
+    if (token) {
+        decodeToken = jwtDecode(token);
+        id = decodeToken.userId;
+    }
 });
 
 const writeMemo = async () => {
@@ -50,7 +57,7 @@ const writeMemo = async () => {
         console.log("[article] : ", article.value);
         console.log("[writeMemo] : ", memo.value);
         memo.value.articleNo = article.value.articleNo;
-        memo.value.memberId = article.value.memberId;
+        memo.value.memberId = id;
         await postMemo(memo.value);
         refresh();
     }
@@ -80,7 +87,7 @@ const writeSubMemo = async (memo) => {
     console.log("write sub memo :", memo);
     subMemo.value.articleNo = memo.articleNo;
     subMemo.value.superComment = memo;
-    subMemo.value.memberId = memo.memberId;
+    subMemo.value.memberId = id;
     console.log(subMemo.value);
     await postSubMemo(memo.memoNo, subMemo.value);
     //refresh();
