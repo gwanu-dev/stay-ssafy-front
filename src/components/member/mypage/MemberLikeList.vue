@@ -38,7 +38,7 @@ onMounted(async () => {
     console.log(likeList.value);
     console.log(articleCount.value);
 
-    totalPage.value = articleCount.value;
+    totalPage.value = 1;
 });
 
 // pageChange
@@ -46,7 +46,7 @@ const onPageChange = (val) => {
     console.log(val + "번 페이지로 이동 준비 끝!!!");
     listParameter.value.pgno = val;
     currentPage.value = val;
-    getArticleList(listParameter);
+    getLikeListByMemberId(member.value.memberId);
 };
 </script>
 

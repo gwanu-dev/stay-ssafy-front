@@ -90,12 +90,14 @@ const writeSubMemo = async (memo) => {
     subMemo.value.memberId = id;
     console.log(subMemo.value);
     await postSubMemo(memo.memoNo, subMemo.value);
+    router.go(0);
     //refresh();
 };
 
 const editMemo = async (memo) => {
     console.log("edit This Key : ", memo);
     putMemo(memo);
+    router.go(0);
 };
 
 const refresh = () => {

@@ -178,7 +178,7 @@ const loadAttractionMarkers = () => {
         let iwContent = `
         <div style="container">
             <div class="font-weight-bold m-2">${attraction.title}</divs>
-            <div class="text-grey font-weight-light m-1">${attraction.addr1}</div>
+            <div class="text-grey text-truncate font-weight-light m-1" style="display:block">${attraction.addr1}</div>
         </div>
         `;
         const latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
@@ -345,7 +345,7 @@ const loadHotelMarker = () => {
                     @click="leftDrawerOpen = !leftDrawerOpen"
                 />
             </q-page-sticky>
-            <q-page-sticky postiion="bottom" :offset="[18, 68]">
+            <q-page-sticky position="bottom-left" :offset="[18, 68]">
                 <q-btn color="secondary" label="주변 숙소 보기" @click="getHotelList" />
             </q-page-sticky>
         </q-header>

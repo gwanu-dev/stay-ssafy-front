@@ -47,6 +47,8 @@ onMounted(async () => {
         if (token) {
             decodeToken = jwtDecode(token);
             articleDetail.value.memberId = decodeToken.userId;
+            articleDetail.value.memberName = decodeToken.userId;
+            // alert(decodeToken.userId);
         }
     }
     console.log(articleDetail.value);
@@ -99,7 +101,7 @@ const updateArticle = () => {
 };
 
 const moveList = () => {
-    router.push({ name: "article-list" });
+    router.replace({ name: "article-list" });
 };
 </script>
 

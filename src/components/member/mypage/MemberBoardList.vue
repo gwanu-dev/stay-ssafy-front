@@ -38,15 +38,15 @@ onMounted(async () => {
     console.log(memberArticleList.value);
     console.log(articleCount.value);
 
-    totalPage.value = articleCount.value;
+    totalPage.value = 1;
 });
 
 // pageChange
-const onPageChange = (val) => {
+const onPageChange = async (val) => {
     console.log(val + "번 페이지로 이동 준비 끝!!!");
     listParameter.value.pgno = val;
     currentPage.value = val;
-    getArticleList(listParameter);
+    await getArticleListByMemberId(member.value.memberId);
 };
 </script>
 

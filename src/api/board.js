@@ -37,7 +37,11 @@ export const useBoardAxiosStore = defineStore(
 
         const put = async (boardDto) => {
             try {
-                await local.post(BASE_URL + `/write`, boardDto)
+                await local.post(BASE_URL + `/write`, boardDto, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                })
             }catch(err) {
                 console.log(err)
             }
