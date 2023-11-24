@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia";
 
 import { useMemberStore } from "@/stores/member.js";
 import { useMypageStore } from "@/stores/mypage.js";
+import MemberAttractionItem from "@/components/member/mypage/MemberAttractionItem.vue";
 
 const memberStore = useMemberStore();
 const mypageStore = useMypageStore();
@@ -31,10 +32,14 @@ const isDetailOpen = ref(false);
                 <h4>북마크 한 관광지</h4>
             </div>
             <hr class="hr hr-4 m-3" />
-            <div class="col-lg-10">
-                <div v-show="!isDetailOpen" class="">
-                    <div v-for="attraction in bookmarkList" :key="attraction.contentId">
-                        <MapAttractionItem :attraction="attraction" />
+            <div class="col-lg-12">
+                <div v-show="!isDetailOpen" class="row">
+                    <div
+                        class="col-4 justify-contents-center"
+                        v-for="attraction in bookmarkList"
+                        :key="attraction.contentId"
+                    >
+                        <MemberAttractionItem :attraction="attraction" />
                     </div>
                 </div>
 

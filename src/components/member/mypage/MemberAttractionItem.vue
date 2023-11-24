@@ -26,7 +26,7 @@ const onClickCard = () => {
                 :src="
                     attraction.firstImage
                         ? attraction.firstImage
-                        : `src/assets/img/illustrations/illustration-signin.jpg`
+                        : 'src/assets/img/illustrations/illustration-signin.jpg'
                 "
             >
                 <div class="absolute-bottom text-h6">
@@ -48,12 +48,12 @@ const onClickCard = () => {
 
 <style scoped>
 .card-image {
-    width: 407px;
+    width: 268px;
     max-height: 200px;
 }
 
 .my-card {
-    width: 440px;
+    width: 300px;
     max-height: 500px;
 }
 

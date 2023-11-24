@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { jwtDecode } from "jwt-decode";
 const router = useRouter();
 const route = useRoute();
 
@@ -12,7 +13,12 @@ const board = useBoardStore();
 const { getArticleDetail, putArticle, editArticle } = board;
 const { article } = storeToRefs(board);
 
-const isUseId = ref(false);
+const isUseId = ref(true);
+
+let token = sessionStorage.getItem("accessToken");
+let decodeToken;
+let id;
+
 console.log(props);
 const articleDetail = ref({
     articleNo: 0,
@@ -37,8 +43,11 @@ onMounted(async () => {
         articleDetail.value.memberName = article.value.memberName;
         articleDetail.value.hit = article.value.hit;
         articleDetail.value.registerTime = article.value.registerTime;
-
-        isUseId.value = true;
+    } else {
+        if (token) {
+            decodeToken = jwtDecode(token);
+            articleDetail.value.memberId = decodeToken.userId;
+        }
     }
     console.log(articleDetail.value);
 });

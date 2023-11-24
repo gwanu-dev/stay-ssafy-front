@@ -15,7 +15,7 @@ defineProps({ article: Object });
         </td>
         <td class="col-2">{{ article.memberName }}</td>
         <td class="col-1">{{ article.hit }}</td>
-        <td class="col-1">{{ article.memos ? article.memos.length : 0 }}</td>
+        <td class="col-1">{{ article.memoCount }}</td>
         <td class="col-1">{{ article.likeCount }}</td>
         <td class="col-5 text-grey">{{ article.registerTime }}</td>
     </tr>

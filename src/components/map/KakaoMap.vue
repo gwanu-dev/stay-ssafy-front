@@ -293,7 +293,7 @@ const loadHotelMarker = () => {
             <div class="d-flex justify-content-end align-items-end">
                 <button type="button" class="btn btn-success m-1" href="` +
             hotel.placeUrl +
-            `">네이버에서보기</button>;
+            `">네이버에서보기</button>
             </div>
         </div>
         `;
@@ -364,8 +364,9 @@ const loadHotelMarker = () => {
                     src="src/assets/img/logos/main-logo1.svg"
                     style="height: 100px"
                     @click="logoClick"
-                >d
+                >
                 </q-img>
+                <hr />
                 <div class="d-flex justify-content-end text-black">
                     <router-link id="board" class="nav-link mx-3" to="board"
                         >여행정보공유</router-link
@@ -380,6 +381,8 @@ const loadHotelMarker = () => {
                         </router-link>
                     </span>
                 </div>
+
+                <hr />
                 <div class="mr-4">
                     <div class="q-pa-md" style="display: flex; align-items: center">
                         <!-- Input -->
@@ -437,9 +440,9 @@ const loadHotelMarker = () => {
                             </option>
                         </select>
                     </div>
-
                     <div v-show="!isDetailOpen" class="">
                         <div v-for="attraction in attractionList" :key="attraction.contentId">
+                            <hr class="solid" />
                             <MapAttractionItem :attraction="attraction" />
                         </div>
                     </div>
