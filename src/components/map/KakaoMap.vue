@@ -293,7 +293,7 @@ const loadHotelMarker = () => {
             <div class="d-flex justify-content-end align-items-end">
                 <button type="button" class="btn btn-success m-1" href="` +
             hotel.placeUrl +
-            `">네이버에서보기</button>;
+            `">네이버에서보기</button>
             </div>
         </div>
         `;
@@ -364,7 +364,7 @@ const loadHotelMarker = () => {
                     src="src/assets/img/logos/main-logo1.svg"
                     style="height: 100px"
                     @click="logoClick"
-                >d
+                >
                 </q-img>
                 <div class="d-flex justify-content-end text-black">
                     <router-link id="board" class="nav-link mx-3" to="board"
